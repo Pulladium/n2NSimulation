@@ -1,7 +1,7 @@
 package cz.cvut.fel.pjv.view.frames;
 
 import at.fhooe.mtd.ecs.Engine;
-import cz.cvut.fel.pjv.controller.canvasRender.CanvasRenderer;
+//import cz.cvut.fel.pjv.controller.canvasRender.CanvasRenderer;
 import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;

@@ -2,9 +2,9 @@ package cz.cvut.fel.pjv;
 
 import at.fhooe.mtd.ecs.Engine;
 
-import cz.cvut.fel.pjv.controller.Simulation2planet;
+//import cz.cvut.fel.pjv.controller.Simulation2planet;
 import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
-import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
+//import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -22,19 +22,17 @@ public class Main extends Application{
     private final WindowFrame windowFrame = WindowFrame.get();
 
 //    static
-    private final UserControl ui = UserControl.get();
+//    private final UserControl ui = UserControl.get();
 
     @Override
     //Nodes(obj, shapes)
     public void start(Stage primaryStage) throws Exception{
         // Создание окна
         windowFrame.run(primaryStage);
+
         //start simulationNplanets
-//        Simulation2planet sim2objcts = new Simulation2planet(engine, windowFrame, ui);
 
-//        sim2objcts.runRK4();
-
-        SimpleAtraction simpleAtraction = new SimpleAtraction(ui, windowFrame, engine);
+        SimpleAtraction simpleAtraction = new SimpleAtraction( windowFrame, engine);
 
 
         windowFrame.loop(engine,simpleAtraction);

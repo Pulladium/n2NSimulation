@@ -1,6 +1,6 @@
 package cz.cvut.fel.pjv.view.frames;
 
-import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Vector2D;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -25,12 +25,12 @@ public class CanvasFrame extends Canvas {
 
 
     // Convert world coordinates to screen coordinates
-    public Vector2D worldToScreen(double wx, double wy) {
+    public Point2D worldToScreen(double wx, double wy) {
         //TODO defualt value
         if(wx - worldX < 0 || wy - worldY < 0){
-            return new Vector2D(10, 10);
+            return new Point2D(10, 10);
         }
-        return  new Vector2D(wx / worldX, wy / worldY);
+        return  new Point2D(wx / worldX, wy / worldY);
 //        return new double[]{wx - worldX, wy - worldY};
     }
 
