@@ -2,6 +2,7 @@ package cz.cvut.fel.pjv.view.frames;
 
 import at.fhooe.mtd.ecs.Engine;
 import cz.cvut.fel.pjv.controller.canvasRender.CanvasRenderer;
+import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -92,7 +93,7 @@ public class WindowFrame {
 
     //need 1 win
     public static WindowFrame get(){
-        if(WindowFrame.instance == null){
+        if(instance == null){
             WindowFrame.instance = new WindowFrame();
         }
         return WindowFrame.instance;
@@ -137,11 +138,13 @@ public class WindowFrame {
         return appAncorPane;
     }
 
-    public void loop(Engine engine){
-        System.out.println("Canvas renderer created");
-        CanvasRenderer canvasRenderer = new CanvasRenderer((CanvasFrame) gameLayoutCanvas, engine);
+    public void loop(Engine engine, SimpleAtraction simpleAtraction){
+//        System.out.println("Canvas renderer created");
+//        CanvasRenderer canvasRenderer = new CanvasRenderer((CanvasFrame) gameLayoutCanvas, engine);
+
+
         if ( gameLoopAnim == null){
-            createGameLoop(engine, canvasRenderer);
+            createGameLoop(engine, simpleAtraction);
         }
 
 
@@ -155,7 +158,7 @@ public class WindowFrame {
         gameLoopAnim.stop();
     }
 
-    private void createGameLoop(Engine engine, CanvasRenderer canvasRenderer){
+    private void createGameLoop(Engine engine, SimpleAtraction simpleAtraction){
         gameLoopAnim = new AnimationTimer() {
             private long lastUpdate = 0; // Время последнего обновления
 
@@ -169,10 +172,12 @@ public class WindowFrame {
                 double deltaTime = (now - lastUpdate) / 1_000_000_00.0; // Время в секундах между текущим и последним кадрами
 
                 //ОБРАЩЕНИЕ К MODEL
-                engine.update(deltaTime); // Обновление с учетом реального времени между кадрами
+//                engine.update(deltaTime); // Обновление с учетом реального времени между кадрами
                 lastUpdate = now; // Сохранение времени этого обновления для следующего кадра
 
-                canvasRenderer.render();
+                simpleAtraction.draw((GraphicsContext) gameLayoutCanvas.getGraphicsContext2D());
+
+//                canvasRenderer.render();
             }
         };
     }

@@ -3,6 +3,7 @@ package cz.cvut.fel.pjv;
 import at.fhooe.mtd.ecs.Engine;
 
 import cz.cvut.fel.pjv.controller.Simulation2planet;
+import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
 import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.application.Application;
@@ -29,11 +30,14 @@ public class Main extends Application{
         // Создание окна
         windowFrame.run(primaryStage);
         //start simulationNplanets
-        Simulation2planet sim2objcts = new Simulation2planet(engine, windowFrame, ui);
+//        Simulation2planet sim2objcts = new Simulation2planet(engine, windowFrame, ui);
 
-        sim2objcts.runRK4();
+//        sim2objcts.runRK4();
 
-        windowFrame.loop(engine);
+        SimpleAtraction simpleAtraction = new SimpleAtraction(ui, windowFrame, engine);
+
+
+        windowFrame.loop(engine,simpleAtraction);
 
 //        PositionComponent pos = earth.getComponent(PositionComponent.class);
 
