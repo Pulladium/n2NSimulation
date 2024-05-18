@@ -49,7 +49,7 @@ public class SimpleAtraction {
 
         SimulationSaverGSON simulationSaverGSON = new SimulationSaverGSON();
         simulationSaverGSON.setCurrentState(simulationState);
-        simulationSaverGSON.saveSimStateGSON("src/main/resources/saves/simState.json");
+        simulationSaverGSON.saveSimStateGSON("src/main/resources/saves/");
 
     }
 
@@ -58,7 +58,7 @@ public class SimpleAtraction {
         System.out.println("Loading sim state");
 
         SimulationSaverGSON simulationSaverGSON = new SimulationSaverGSON();
-        simulationState = simulationSaverGSON.loadSimStateGSON("src/main/resources/saves/simState.json");
+        simulationState = simulationSaverGSON.loadSimStateGSON("src/main/resources/saves/");
 
 
         if( simulationState == null){
@@ -68,6 +68,8 @@ public class SimpleAtraction {
         if(n2mAtraction != null){
             engine.removeSystem(n2mAtraction);
         }
+        //redraw after load
+        draw(window.getGameLayoutCanvas().getGraphicsContext2D());
         n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
         engine.addSystem(n2mAtraction);
 
@@ -76,8 +78,9 @@ public class SimpleAtraction {
 
     private void setup() {
         simulationState = new SimulationState();
-        simulationState.createDefaultState();
+//        simulationState.createDefaultState();
 
+        simulationState.createNwithoutAtractor(50);
 
         n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
         engine.addSystem(n2mAtraction);
@@ -106,8 +109,9 @@ public class SimpleAtraction {
             moveableHandl.show(gc);
         }
 
-       simulationState.getSun().currentEntity.getComponent(MoveableHandl.class).show(gc);
-
+        if(simulationState.getSun() != null) {
+            simulationState.getSun().currentEntity.getComponent(MoveableHandl.class).show(gc);
+        }
         gc.restore();
 //        sun.show(gc, WIDTH / 2, HEIGHT / 2);
     }
