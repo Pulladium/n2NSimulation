@@ -59,6 +59,14 @@ public class Main extends Application{
                 if(!windowFrame.isRunning())
                     simpleAtraction.loadSimState();
             }
+            else if ( keyEvent.isControlDown()) {
+                if ( keyEvent.getCode() == KeyCode.PLUS ||  keyEvent.getCode() == KeyCode.EQUALS) {
+                    windowFrame.setCanvasScale(windowFrame.getCanvasScale()* 1.1);
+                } else if ( keyEvent.getCode() == KeyCode.MINUS) {
+//                    scale /= 1.1;
+                    windowFrame.setCanvasScale(windowFrame.getCanvasScale() / 1.1);
+                }
+            }
         });
 //        //TUTA PRACUJE
 //        pos.vector2D.xProperty().set(200);

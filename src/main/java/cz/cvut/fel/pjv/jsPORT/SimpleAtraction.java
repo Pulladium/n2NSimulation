@@ -102,6 +102,8 @@ public class SimpleAtraction {
         gc.save();
         gc.translate(WIDTH / 2, HEIGHT / 2);
 
+        gc.scale(window.getCanvasScale(), window.getCanvasScale());
+
         for (Mover mover : simulationState.getMovers()) {
             //changePos
             MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);

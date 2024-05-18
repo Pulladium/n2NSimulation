@@ -43,7 +43,7 @@ public class SimulationState {
         if (sun != null) {
             return sun;
         }
-        System.out.println("Sun is null");
+//        System.out.println("Sun is null");
         return null;
     }
 

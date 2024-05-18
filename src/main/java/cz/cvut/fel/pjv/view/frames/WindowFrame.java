@@ -29,6 +29,13 @@ public class WindowFrame {
     private String title;
 
     Canvas gameLayoutCanvas;
+
+    public double getCanvasScale() {
+        return canvasScale;
+    }
+
+    private double canvasScale = 0.5;
+
     AnchorPane appAncorPane;
     Scene currentScene;
     private ScheduledExecutorService simulationExecutor;
@@ -37,6 +44,10 @@ public class WindowFrame {
     private volatile boolean running = true;
 
     private static AnimationTimer gameLoopAnim;
+
+    public void setCanvasScale(double canvasScale) {
+        this.canvasScale = canvasScale;
+    }
 
     private static WindowFrame instance;
 
@@ -58,7 +69,9 @@ public class WindowFrame {
 //        gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, gameLayoutCanvas.getWidth(), gameLayoutCanvas.getHeight()); // Заливаем весь Canvas черным цветом
 
-
+        gc.save();
+        gc.scale(canvasScale, canvasScale); // Масштабирование Canvas
+        gc.restore();
 //        gameLayoutPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, null)));
         gameLayoutCanvas.setViewOrder(1.0);
 
