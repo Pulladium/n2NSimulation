@@ -21,6 +21,6 @@ public class GLOBALS {
     public static final long FRAME_DURATION = ONE_SECOND_IN_NANOSECONDS / TARGET_FPS;
 
 
-    public static final int SIMULATION_UPDATE_RATE = 30;
+    public static final int SIMULATION_UPDATE_RATE = 60;
 
 }

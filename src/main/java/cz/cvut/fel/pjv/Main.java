@@ -5,7 +5,6 @@ import at.fhooe.mtd.ecs.Engine;
 //import cz.cvut.fel.pjv.controller.Simulation2planet;
 import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
 //import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
-import cz.cvut.fel.pjv.model.ecsSystems.N2mAtraction;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -39,9 +38,6 @@ public class Main extends Application{
 
         windowFrame.loop(engine,simpleAtraction);
 
-
-//        PositionComponent pos = earth.getComponent(PositionComponent.class);
-
 //        //TUTA PRACUJE
 //        pos.vector2D.xProperty().set(200);
 //        pos.vector2D.yProperty().set(200);
@@ -59,11 +55,12 @@ public class Main extends Application{
 
 
     }
+
     @Override
     public void stop() throws Exception {
         super.stop();
 
-        windowFrame.stopSimLoop();
+        windowFrame.simShutdown();
         windowFrame.stopLoop();
     }
 

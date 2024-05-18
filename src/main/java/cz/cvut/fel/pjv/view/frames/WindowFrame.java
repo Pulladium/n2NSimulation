@@ -34,6 +34,8 @@ public class WindowFrame {
     private ScheduledExecutorService simulationExecutor;
 
 
+    private volatile boolean running = true;
+
     private static AnimationTimer gameLoopAnim;
 
     private static WindowFrame instance;
@@ -151,7 +153,7 @@ public class WindowFrame {
 
 
         if ( gameLoopAnim == null){
-            createSimLoop(engine);
+            createSimThread(engine);
             createGameLoop( simpleAtraction);
         }
 
@@ -166,6 +168,13 @@ public class WindowFrame {
         gameLoopAnim.stop();
     }
 
+    public void pause() {
+        running = false;
+    }
+
+    public void resume() {
+        running = true;
+    }
 
 
     // Частота redraw
@@ -182,7 +191,7 @@ public class WindowFrame {
                     return;
                 }
 
-                if (now - lastUpdate >= FRAME_DURATION) {
+                if (running && now - lastUpdate >= FRAME_DURATION) {
                     simpleAtraction.draw((GraphicsContext) gameLayoutCanvas.getGraphicsContext2D());
                     lastUpdate = now;
                 }
@@ -200,17 +209,20 @@ public class WindowFrame {
 
 
     /// Частота обновления симуляции
-    private void createSimLoop(Engine engine){
+    private void createSimThread(Engine engine){
 
         // Создаем и запускаем поток для обновления симуляции
         simulationExecutor = Executors.newSingleThreadScheduledExecutor();
         simulationExecutor.scheduleAtFixedRate(() -> {
-            engine.update(1.0 / SIMULATION_UPDATE_RATE);
+            if(running) {
+                engine.update(1.0 / SIMULATION_UPDATE_RATE);
+
+            }
         }, 0, 1000 / SIMULATION_UPDATE_RATE, TimeUnit.MILLISECONDS);
 
     }
 
-    public void stopSimLoop(){
+    public void simShutdown(){
         if (simulationExecutor != null && !simulationExecutor.isShutdown()) {
             simulationExecutor.shutdown();
         }

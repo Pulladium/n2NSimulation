@@ -40,6 +40,10 @@ public class SimpleAtraction {
     }
 
 
+    public void saveSimState(){
+        //game must be paused
+    }
+
     private void setup() {
         Random random = new Random();
         for (int i = 0; i < 100; i++) {
