@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import cz.cvut.fel.pjv.model.JsonAdapters.*;
 import cz.cvut.fel.pjv.model.SimulationState;
 import cz.cvut.fel.pjv.model.ecsComponents.CompColor;
+import cz.cvut.fel.pjv.model.ecsComponents.MassComponent;
+import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -23,6 +25,8 @@ public class SimulationSaverGSON {
         Gson gson = new GsonBuilder().setPrettyPrinting()
                 .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(CompColor.class, new ColorCompAdapter())
+                .registerTypeAdapter(MassComponent.class, new MassCompAdapter())
+                .registerTypeAdapter(Point2DExt.class , new Point2DExtAdapter())
         .create();
 
 
