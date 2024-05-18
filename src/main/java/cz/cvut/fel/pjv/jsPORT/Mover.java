@@ -28,7 +28,7 @@ public class Mover {
     CompSize size;
     CompColor color;
 
-    Mover(double x, double y, double vx, double vy, double m, double size, Color color) {
+    public Mover(double x, double y, double vx, double vy, double m, double size, Color color) {
 
         this.posComp = new CompPosition(x, y);
         this.velComp = new CompVelocity(vx, vy);
