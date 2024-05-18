@@ -132,6 +132,10 @@ public class WindowFrame {
 
     }
 
+    public Scene getCurrentScene() {
+        return currentScene;
+    }
+
     public Canvas getGameLayoutCanvas() {
         return gameLayoutCanvas;
     }
@@ -169,13 +173,18 @@ public class WindowFrame {
     }
 
     public void pause() {
+        gameLoopAnim.stop();
         running = false;
     }
 
     public void resume() {
         running = true;
+        gameLoopAnim.start();
     }
 
+    public boolean isRunning() {
+        return running;
+    }
 
     // Частота redraw
     private void createGameLoop( SimpleAtraction simpleAtraction){
@@ -206,6 +215,7 @@ public class WindowFrame {
             }
         };
     }
+
 
 
     /// Частота обновления симуляции

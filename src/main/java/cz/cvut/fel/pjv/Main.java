@@ -7,7 +7,10 @@ import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
 //import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.application.Application;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 //podskazky
 
@@ -38,6 +41,21 @@ public class Main extends Application{
 
         windowFrame.loop(engine,simpleAtraction);
 
+
+        windowFrame.getCurrentScene().setOnKeyPressed(keyEvent ->
+        {
+            System.out.println("Key pressed: " + keyEvent.getCode());
+            if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.P) {
+                if (windowFrame.isRunning())
+                    windowFrame.pause();
+                else
+                    windowFrame.resume();
+            }
+            else if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.S) {
+                if(!windowFrame.isRunning())
+                    simpleAtraction.saveSimState();
+            }
+        });
 //        //TUTA PRACUJE
 //        pos.vector2D.xProperty().set(200);
 //        pos.vector2D.yProperty().set(200);

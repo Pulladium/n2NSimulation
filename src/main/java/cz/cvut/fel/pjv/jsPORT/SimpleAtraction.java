@@ -42,6 +42,7 @@ public class SimpleAtraction {
 
     public void saveSimState(){
         //game must be paused
+        System.out.println("Saving sim state");
     }
 
     private void setup() {
