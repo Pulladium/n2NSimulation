@@ -55,6 +55,10 @@ public class Main extends Application{
                 if(!windowFrame.isRunning())
                     simpleAtraction.saveSimState();
             }
+            else if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.L) {
+                if(!windowFrame.isRunning())
+                    simpleAtraction.loadSimState();
+            }
         });
 //        //TUTA PRACUJE
 //        pos.vector2D.xProperty().set(200);

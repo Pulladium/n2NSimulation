@@ -2,6 +2,7 @@ package cz.cvut.fel.pjv.jsPORT;
 
 import at.fhooe.mtd.ecs.Engine;
 //import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
+import cz.cvut.fel.pjv.controller.SimulationSaverGSON;
 import cz.cvut.fel.pjv.model.SimulationState;
 import cz.cvut.fel.pjv.model.ecsComponents.MoveableHandl;
 import cz.cvut.fel.pjv.model.ecsSystems.N2mAtraction;
@@ -43,24 +44,37 @@ public class SimpleAtraction {
 
 
     public void saveSimState(){
-        //game must be paused
+        //game will be paused
         System.out.println("Saving sim state");
+
+        SimulationSaverGSON simulationSaverGSON = new SimulationSaverGSON();
+        simulationSaverGSON.setCurrentState(simulationState);
+        simulationSaverGSON.saveSimStateGSON("src/main/resources/saves/simState.json");
+
+    }
+
+    public void loadSimState(){
+        //game will be paused
+        System.out.println("Loading sim state");
+
+        SimulationSaverGSON simulationSaverGSON = new SimulationSaverGSON();
+        simulationState = simulationSaverGSON.loadSimStateGSON("src/main/resources/saves/simState.json");
+
+
+        if( simulationState == null){
+            System.out.println("Simulation state is null");
+            return;
+        }
+        if(n2mAtraction != null){
+            engine.removeSystem(n2mAtraction);
+        }
+        n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
+        engine.addSystem(n2mAtraction);
+
+
     }
 
     private void setup() {
-//        Random random = new Random();
-//        for (int i = 0; i < 100; i++) {
-//            Point2D pos = random2D().multiply(random.nextDouble() * 50 + 150);
-//            Point2D vel = pos.normalize().multiply(random.nextDouble() * 5 + 10);
-//            vel = rotate(vel, Math.PI / 2);
-//            double m = random.nextDouble() * 5 + 10;
-//            double size = random.nextDouble() * 10 + 5;
-//
-//
-//
-//            movers.add(new Mover(pos.getX(), pos.getY(), vel.getX(), vel.getY(), m, size, randomColor()));
-//        }
-//        sun = new Mover(0, 0, 0, 0, 500, 20, Color.YELLOW);
         simulationState = new SimulationState();
         simulationState.createDefaultState();
 

@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.model;
 
+import com.google.gson.annotations.Expose;
 import cz.cvut.fel.pjv.jsPORT.Mover;
 import cz.cvut.fel.pjv.model.ecsSystems.N2mAtraction;
 import javafx.geometry.Point2D;
@@ -12,7 +13,9 @@ import static cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt.random2D;
 import static cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt.rotate;
 
 public class SimulationState {
+    @Expose
     private ArrayList<Mover> movers;
+    @Expose
     private Mover sun;
 
     private Color randomColor() {
