@@ -100,9 +100,9 @@ public class SimpleAtraction {
 
         //TODO ToCanvasRenderer FPS
         gc.save();
-        gc.translate(WIDTH / 2, HEIGHT / 2);
+        gc.translate(WIDTH / 2 + window.offsetX, HEIGHT / 2 + window.offsetY);
 
-        gc.scale(window.getCanvasScale(), window.getCanvasScale());
+        gc.scale(window.getCanvasScale() , window.getCanvasScale() );
 
         for (Mover mover : simulationState.getMovers()) {
             //changePos

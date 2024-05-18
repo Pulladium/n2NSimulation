@@ -69,6 +69,28 @@ public class Main extends Application{
                     simpleAtraction.draw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
                 }
             }
+            else {
+                switch (keyEvent.getCode()) {
+                    case W:
+                        windowFrame.offsetY -= 10;
+                        simpleAtraction.draw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
+                        break;
+                    case S:
+                        windowFrame.offsetY += 10;
+                        simpleAtraction.draw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
+                        break;
+                    case A:
+                        windowFrame.offsetX -= 10;
+                        simpleAtraction.draw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
+                        break;
+                    case D:
+                        windowFrame.offsetX += 10;
+                        simpleAtraction.draw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
+                        break;
+
+                }
+
+            }
         });
 //        //TUTA PRACUJE
 //        pos.vector2D.xProperty().set(200);
