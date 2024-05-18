@@ -12,23 +12,38 @@ public class N2mAtraction extends EngineSystem {
 
 
     private ArrayList<Mover> movers = new ArrayList<>();
+    private Mover sun;
 
+
+    //with atractor in the middle
+    public N2mAtraction(ArrayList<Mover> movers, Mover sun) {
+        this.movers = movers;
+        this.sun = sun;
+    }
+
+    //without atractor in the middle
     public N2mAtraction(ArrayList<Mover> movers) {
         this.movers = movers;
     }
 
 
+
+
     @Override
     public void update(double dT) {
-
-        ////            sunMoveableHandl.attract(moveableHandl.getEntity());
-//            for (Mover other : movers) {
-//                if (mover != other) {
-//                    MoveableHandl otherMoveableHandl = other.currentEntity.getComponent(MoveableHandl.class);
-//                    moveableHandl.attract(otherMoveableHandl.getEntity());
-//                }
-//            }
-//
+        for (Mover mover : movers) {
+            MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);
+            if(sun != null) {
+                MoveableHandl sunMoveableHandl = sun.currentEntity.getComponent(MoveableHandl.class);
+                sunMoveableHandl.attract(moveableHandl.getEntity());
+            }
+            for (Mover other : movers) {
+                if (mover != other) {
+                    MoveableHandl otherMoveableHandl = other.currentEntity.getComponent(MoveableHandl.class);
+                    moveableHandl.attract(otherMoveableHandl.getEntity());
+                }
+            }
+        }
     }
 
 //    public void draw(GraphicsContext gc) {

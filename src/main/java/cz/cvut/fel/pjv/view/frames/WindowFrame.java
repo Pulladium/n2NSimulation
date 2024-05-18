@@ -172,7 +172,7 @@ public class WindowFrame {
                 double deltaTime = (now - lastUpdate) / 1_000_000_00.0; // Время в секундах между текущим и последним кадрами
 
                 //ОБРАЩЕНИЕ К MODEL
-//                engine.update(deltaTime); // Обновление с учетом реального времени между кадрами
+                engine.update(deltaTime); // Обновление с учетом реального времени между кадрами
                 lastUpdate = now; // Сохранение времени этого обновления для следующего кадра
 
                 simpleAtraction.draw((GraphicsContext) gameLayoutCanvas.getGraphicsContext2D());
