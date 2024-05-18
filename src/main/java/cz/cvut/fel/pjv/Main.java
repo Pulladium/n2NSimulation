@@ -62,9 +62,11 @@ public class Main extends Application{
             else if ( keyEvent.isControlDown()) {
                 if ( keyEvent.getCode() == KeyCode.PLUS ||  keyEvent.getCode() == KeyCode.EQUALS) {
                     windowFrame.setCanvasScale(windowFrame.getCanvasScale()* 1.1);
+                    simpleAtraction.draw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
                 } else if ( keyEvent.getCode() == KeyCode.MINUS) {
 //                    scale /= 1.1;
                     windowFrame.setCanvasScale(windowFrame.getCanvasScale() / 1.1);
+                    simpleAtraction.draw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
                 }
             }
         });

@@ -136,12 +136,7 @@ public class WindowFrame {
         System.out.println("Initializing window");
         currentScene = new Scene(createContent(), width, height);
 
-
-
         //Init FX
-
-
-
 
     }
 
