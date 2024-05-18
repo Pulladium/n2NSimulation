@@ -1,11 +1,12 @@
 package cz.cvut.fel.pjv.model.ecsComponents;
 
 import at.fhooe.mtd.ecs.Component;
+import com.google.gson.annotations.Expose;
 import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt;
 import javafx.geometry.Point2D;
 
 public class CompVelocity  extends Component {
-
+    @Expose
     Point2DExt velocity;
 
     public CompVelocity(double vx, double vy) {
