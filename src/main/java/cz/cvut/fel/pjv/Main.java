@@ -5,6 +5,7 @@ import at.fhooe.mtd.ecs.Engine;
 //import cz.cvut.fel.pjv.controller.Simulation2planet;
 import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
 //import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
+import cz.cvut.fel.pjv.model.ecsSystems.N2mAtraction;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -31,6 +32,7 @@ public class Main extends Application{
         windowFrame.run(primaryStage);
 
         //start simulationNplanets
+
 
         SimpleAtraction simpleAtraction = new SimpleAtraction( windowFrame, engine);
 
