@@ -39,6 +39,7 @@ public class Main extends Application{
 
         windowFrame.loop(engine,simpleAtraction);
 
+
 //        PositionComponent pos = earth.getComponent(PositionComponent.class);
 
 //        //TUTA PRACUJE
@@ -57,6 +58,13 @@ public class Main extends Application{
 
 
 
+    }
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+
+        windowFrame.stopSimLoop();
+        windowFrame.stopLoop();
     }
 
 
