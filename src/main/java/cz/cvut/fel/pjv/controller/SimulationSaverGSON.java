@@ -2,7 +2,9 @@ package cz.cvut.fel.pjv.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import cz.cvut.fel.pjv.model.JsonAdapters.*;
 import cz.cvut.fel.pjv.model.SimulationState;
+import cz.cvut.fel.pjv.model.ecsComponents.CompColor;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -18,7 +20,10 @@ public class SimulationSaverGSON {
 
     public void saveSimStateGSON(String path2save){
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        Gson gson = new GsonBuilder().setPrettyPrinting()
+                .excludeFieldsWithoutExposeAnnotation()
+                .registerTypeAdapter(CompColor.class, new ColorCompAdapter())
+        .create();
 
 
         try(FileWriter writer = new FileWriter(path2save)){
