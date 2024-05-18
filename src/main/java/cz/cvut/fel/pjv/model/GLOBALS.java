@@ -11,7 +11,7 @@ import java.util.List;
 public class GLOBALS {
     public static final double G = 0.4;
 
-    private static List<Entity> getAllEntities(Engine engine) {
+    public static List<Entity> getAllEntities(Engine engine) {
         EntityFamily movers = EntityFamily.create(CompAcceleration.class, CompColor.class, CompVelocity.class, CompRadius.class, CompSize.class, MassComponent.class);
         return engine.getEntities(movers);
     }

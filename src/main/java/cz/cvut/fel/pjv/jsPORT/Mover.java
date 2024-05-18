@@ -14,7 +14,7 @@ import static cz.cvut.fel.pjv.model.GLOBALS.G;
 public class Mover {
 
 
-    Entity currentEntity;
+    public Entity currentEntity;
 
 
 //    Point2D pos;
