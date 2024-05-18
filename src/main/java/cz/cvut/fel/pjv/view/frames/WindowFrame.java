@@ -18,6 +18,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import static cz.cvut.fel.pjv.model.GLOBALS.*;
+
 public class WindowFrame {
     private int width, height;
     private String title;
@@ -25,6 +31,7 @@ public class WindowFrame {
     Canvas gameLayoutCanvas;
     AnchorPane appAncorPane;
     Scene currentScene;
+    private ScheduledExecutorService simulationExecutor;
 
 
     private static AnimationTimer gameLoopAnim;
@@ -144,7 +151,8 @@ public class WindowFrame {
 
 
         if ( gameLoopAnim == null){
-            createGameLoop(engine, simpleAtraction);
+            createSimLoop(engine);
+            createGameLoop( simpleAtraction);
         }
 
 
@@ -158,7 +166,12 @@ public class WindowFrame {
         gameLoopAnim.stop();
     }
 
-    private void createGameLoop(Engine engine, SimpleAtraction simpleAtraction){
+
+
+    // Частота redraw
+    private void createGameLoop( SimpleAtraction simpleAtraction){
+
+
         gameLoopAnim = new AnimationTimer() {
             private long lastUpdate = 0; // Время последнего обновления
 
@@ -169,13 +182,16 @@ public class WindowFrame {
                     return;
                 }
 
-                double deltaTime = (now - lastUpdate) / 1_000_000_00.0; // Время в секундах между текущим и последним кадрами
+                if (now - lastUpdate >= FRAME_DURATION) {
+                    simpleAtraction.draw((GraphicsContext) gameLayoutCanvas.getGraphicsContext2D());
+                    lastUpdate = now;
+                }
+//                double deltaTime = (now - lastUpdate) / 1_000_000_00.0; // Время в секундах между текущим и последним кадрами
 
                 //ОБРАЩЕНИЕ К MODEL
-                engine.update(deltaTime); // Обновление с учетом реального времени между кадрами
-                lastUpdate = now; // Сохранение времени этого обновления для следующего кадра
+//                engine.update(deltaTime); // Обновление с учетом реального времени между кадрами
+//                lastUpdate = now; // Сохранение времени этого обновления для следующего кадра
 
-                simpleAtraction.draw((GraphicsContext) gameLayoutCanvas.getGraphicsContext2D());
 
 //                canvasRenderer.render();
             }
@@ -183,4 +199,20 @@ public class WindowFrame {
     }
 
 
+    /// Частота обновления симуляции
+    private void createSimLoop(Engine engine){
+
+        // Создаем и запускаем поток для обновления симуляции
+        simulationExecutor = Executors.newSingleThreadScheduledExecutor();
+        simulationExecutor.scheduleAtFixedRate(() -> {
+            engine.update(1.0 / SIMULATION_UPDATE_RATE);
+        }, 0, 1000 / SIMULATION_UPDATE_RATE, TimeUnit.MILLISECONDS);
+
+    }
+
+    public void stopSimLoop(){
+        if (simulationExecutor != null && !simulationExecutor.isShutdown()) {
+            simulationExecutor.shutdown();
+        }
+    }
 }
