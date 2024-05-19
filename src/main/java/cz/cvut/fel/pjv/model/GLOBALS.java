@@ -4,6 +4,7 @@ import at.fhooe.mtd.ecs.Engine;
 import at.fhooe.mtd.ecs.Entity;
 import at.fhooe.mtd.ecs.EntityFamily;
 import cz.cvut.fel.pjv.model.ecsComponents.*;
+import cz.cvut.fel.pjv.view.frames.WindowFrame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,4 +24,5 @@ public class GLOBALS {
 
     public static final int SIMULATION_UPDATE_RATE = 60;
 
+    public static WindowFrame windowFrame = WindowFrame.get();
 }

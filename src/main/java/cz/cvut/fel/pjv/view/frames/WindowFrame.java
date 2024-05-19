@@ -3,6 +3,7 @@ package cz.cvut.fel.pjv.view.frames;
 import at.fhooe.mtd.ecs.Engine;
 //import cz.cvut.fel.pjv.controller.canvasRender.CanvasRenderer;
 import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
+import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -42,7 +44,7 @@ public class WindowFrame {
     Pane guiLayoutPane;
     private double canvasScale = 0.5;
 
-
+    UserControl userControl = UserControl.get();
 
 
     private ScheduledExecutorService simulationExecutor;
@@ -74,16 +76,16 @@ public class WindowFrame {
 ////        AnchorPane.setLeftAnchor(guiLayoutPane, 0.0);
 //        AnchorPane.setBottomAnchor(guiLayoutPane, 0.0);
 //        AnchorPane.setRightAnchor(guiLayoutPane, 0.0);
-//        guiLayoutPane.setPrefWidth(100);
-//        guiLayoutPane.setPrefWidth(100);
-
-        guiLayoutPane.setMaxWidth(200);
-        guiLayoutPane.setMinWidth(200);
-
-        guiLayoutPane.setVisible(true);
+        guiLayoutPane.setPrefWidth(100);
+        guiLayoutPane.setPrefWidth(100);
 
 
+        System.out.println("GuiLayoutPane create width: " + guiLayoutPane.getWidth());
+
+
+        userControl.setWindow(this);
         appHBox.getChildren().add(guiLayoutPane);
+        guiLayoutPane.setVisible(false);
         return null;
     }
 
@@ -92,6 +94,7 @@ public class WindowFrame {
 
 
         gameLayoutCanvas = new CanvasFrame(width, height);
+
 
 //        gameLayoutPane.autosize();
         GraphicsContext gc = gameLayoutCanvas.getGraphicsContext2D();
@@ -105,8 +108,16 @@ public class WindowFrame {
 //        gameLayoutPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, null)));
         gameLayoutCanvas.setViewOrder(2.0);
 
+        // Make the Canvas focusable
+        gameLayoutCanvas.setFocusTraversable(true);
+        gameLayoutCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            System.out.println("Mouse Clicked at: " + event.getX() + ", " + event.getY());
+            // Запрашиваем фокус для Canvas при клике
+            gameLayoutCanvas.requestFocus();
+        });
+
         appAncorPane = new AnchorPane();
-        appAncorPane.autosize();
+//        appAncorPane.autosize();
         appAncorPane.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, null)));
         appAncorPane.getChildren().add(gameLayoutCanvas);
 //
@@ -115,13 +126,55 @@ public class WindowFrame {
 
 
 
-//        //doesnt work with canvas
-//        AnchorPane.setTopAnchor(gameLayoutCanvas, 0.0);
-//        AnchorPane.setLeftAnchor(gameLayoutCanvas, 0.0);
-//        AnchorPane.setRightAnchor(gameLayoutCanvas, 0.0);
-//        AnchorPane.setBottomAnchor(gameLayoutCanvas, 0.0);
 
 
+        appHBox = new HBox();
+//        appHBox.autosize();
+
+        appHBox.getChildren().add(appAncorPane);
+
+        createGUI();
+
+//        appAncorPane.setMinWidth(appHBox.getWidth()- 200);
+//        appAncorPane.setMaxWidth(appHBox.getWidth() - 200);
+//        gameLayoutCanvas.setWidth(appHBox.getWidth() - 200);
+        System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
+
+
+
+        //сначла нео
+
+        // Add width and height listeners to the Hbox
+        appHBox.widthProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldWidth, Number newWidth) {
+
+                System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
+
+                if(guiLayoutPane.isVisible()) {
+                    appAncorPane.setMinWidth(newWidth.doubleValue() - 100);
+                    appAncorPane.setMaxWidth(newWidth.doubleValue() - 100);
+                }
+                else{
+                    appAncorPane.setMinWidth(newWidth.doubleValue());
+                    appAncorPane.setMaxWidth(newWidth.doubleValue());
+                }
+            }
+        });
+
+        appHBox.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldHeight, Number newHeight) {
+
+
+                System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
+                appAncorPane.setMinHeight(newHeight.doubleValue());
+                appAncorPane.setMaxHeight(newHeight.doubleValue());
+
+
+            }
+        });
         // Add width and height listeners to the anchor pane
         appAncorPane.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -143,43 +196,6 @@ public class WindowFrame {
                     simpleAtraction.draw(gameLayoutCanvas.getGraphicsContext2D());
                 }
 
-            }
-        });
-
-
-        appHBox = new HBox();
-        appHBox.autosize();
-        appHBox.getChildren().add(appAncorPane);
-        createGUI();
-
-        // Add width and height listeners to the Hbox
-        appHBox.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldWidth, Number newWidth) {
-
-                System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
-//                appAncorPane.setPrefWidth(newWidth.doubleValue());
-                appAncorPane.setMinWidth(newWidth.doubleValue() - guiLayoutPane.getWidth());
-                appAncorPane.setMaxWidth(newWidth.doubleValue() - guiLayoutPane.getWidth());
-
-//                if (simpleAtraction != null) {
-//                    simpleAtraction.draw((GraphicsContext) gameLayoutCanvas.getGraphicsContext2D());
-//                }
-            }
-        });
-
-        appHBox.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldHeight, Number newHeight) {
-//                appAncorPane.setPrefHeight(newHeight.doubleValue());
-
-                System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
-                appAncorPane.setMinHeight(newHeight.doubleValue());
-                appAncorPane.setMaxHeight(newHeight.doubleValue());
-
-//                if(simpleAtraction != null){
-//                    simpleAtraction.draw((GraphicsContext) gameLayoutCanvas.getGraphicsContext2D());
-//                }
             }
         });
 
@@ -245,11 +261,18 @@ public class WindowFrame {
     public void pause() {
         gameLoopAnim.stop();
         running = false;
+
+
+        guiLayoutPane.setVisible(true);
+
+        System.out.println("GuiLayoutPane width: " + guiLayoutPane.getWidth());
+        userControl.showCompControl(simpleAtraction.simulationState.getSun().currentEntity);
 //        guiLayoutPane.setVisible(true);
     }
 
     public void resume() {
         running = true;
+        guiLayoutPane.setVisible(false);
         gameLoopAnim.start();
     }
 
@@ -323,6 +346,9 @@ public class WindowFrame {
     public Canvas getGameLayoutCanvas() {
         return gameLayoutCanvas;
     }
+    public Pane getGuiLayoutPane() {
+        return guiLayoutPane;
+    }
 
     public int getHeight() {
         return height;
@@ -332,6 +358,9 @@ public class WindowFrame {
     }
     public AnchorPane getAppPane() {
         return appAncorPane;
+    }
+    public SimpleAtraction getSim() {
+        return simpleAtraction;
     }
 
 
