@@ -34,8 +34,24 @@ public class Mover {
         return size;
     }
 
-    public void setSize(int size) {
-        this.size = new CompSize(size);
+    public Entity getCurrentEntity() {
+        return currentEntity;
+    }
+
+    public CompVelocity getVelComp() {
+        return velComp;
+    }
+
+    public CompAcceleration getAccComp() {
+        return accComp;
+    }
+
+    public MassComponent getMassComp() {
+        return massComp;
+    }
+
+    public CompColor getColor() {
+        return color;
     }
 
     @Expose

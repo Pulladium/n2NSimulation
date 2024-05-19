@@ -112,31 +112,7 @@ public class WindowFrame {
 
         // Make the Canvas focusable
         gameLayoutCanvas.setFocusTraversable(true);
-        gameLayoutCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-//            System.out.println("Sun pos: " + simpleAtraction.simulationState.getSun().getPosComp().position.toString());
-//            System.out.println("Mouse Clicked at: " + event.getX() + ", " + event.getY());
-            System.out.println("Canvas width: " + gameLayoutCanvas.getWidth() + " height: " + gameLayoutCanvas.getHeight());
-            System.out.println("Mouse Clicked at: " + (event.getX() - windowFrame.gameLayoutCanvas.getWidth()/2) + ", " + (event.getY() - windowFrame.gameLayoutCanvas.getHeight() /2));
-            // Запрашиваем фокус для Canvas при клике
-            gameLayoutCanvas.requestFocus();
-            if(!running && simpleAtraction != null){
-                // if click inside object pos + size find first one
-                //without canvas.scale
-//                Mover selectedMover = simpleAtraction.selectMover(new Point2D(event.getX() - windowFrame.gameLayoutCanvas.getWidth()/2, event.getY() - windowFrame.gameLayoutCanvas.getHeight() /2)) ;
 
-                //with canvas.scale
-                Mover selectedMover = simpleAtraction.selectMover(new Point2D((event.getX() - windowFrame.gameLayoutCanvas.getWidth()/2) / windowFrame.getCanvasScale(), (event.getY() - windowFrame.gameLayoutCanvas.getHeight() /2) / windowFrame.getCanvasScale())) ;
-                if(selectedMover != null) {
-                    System.out.println("Selected mover: " + selectedMover.getPosComp().position.toString());
-//                    selectedMover.setSize(100);
-                    System.out.println("Selected mover size: " + selectedMover.getSize());
-
-                    selectedMover.setSize(selectedMover.getSize() + 10);
-                    //draw двигает объекты
-                    simpleAtraction.redraw(gameLayoutCanvas.getGraphicsContext2D());
-                }
-            }
-        });
 
         appAncorPane = new AnchorPane();
 //        appAncorPane.autosize();
@@ -203,7 +179,8 @@ public class WindowFrame {
             public void changed(ObservableValue<? extends Number> observable, Number oldWidth, Number newWidth) {
                 gameLayoutCanvas.setWidth(newWidth.doubleValue());
                 if(!running && simpleAtraction != null){
-                    simpleAtraction.draw(gameLayoutCanvas.getGraphicsContext2D());
+//                    simpleAtraction.draw(gameLayoutCanvas.getGraphicsContext2D());
+                    simpleAtraction.redraw(gameLayoutCanvas.getGraphicsContext2D());
                 }
 
 
@@ -215,7 +192,8 @@ public class WindowFrame {
             public void changed(ObservableValue<? extends Number> observable, Number oldHeight, Number newHeight) {
                 gameLayoutCanvas.setHeight(newHeight.doubleValue());
                 if(!running && simpleAtraction != null){
-                    simpleAtraction.draw(gameLayoutCanvas.getGraphicsContext2D());
+//                    simpleAtraction.draw(gameLayoutCanvas.getGraphicsContext2D());
+                    simpleAtraction.redraw(gameLayoutCanvas.getGraphicsContext2D());
                 }
 
             }
@@ -293,8 +271,7 @@ public class WindowFrame {
         guiLayoutPane.setPrefWidth(200);
 
         System.out.println("GuiLayoutPane width: " + guiLayoutPane.getWidth());
-//        userControl.showCompControl(simpleAtraction.simulationState.getSun().currentEntity);
-//        guiLayoutPane.setVisible(true);
+//                guiLayoutPane.setVisible(true);
     }
 
     public void resume() {
@@ -341,9 +318,60 @@ public class WindowFrame {
     }
 
 
+    private void addCanvasListner(Engine engine){
+        gameLayoutCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+//            System.out.println("Sun pos: " + simpleAtraction.simulationState.getSun().getPosComp().position.toString());
+//            System.out.println("Mouse Clicked at: " + event.getX() + ", " + event.getY());
+            System.out.println("Canvas width: " + gameLayoutCanvas.getWidth() + " height: " + gameLayoutCanvas.getHeight());
+            System.out.println("Mouse Clicked at: " + (event.getX() - windowFrame.gameLayoutCanvas.getWidth()/2) + ", " + (event.getY() - windowFrame.gameLayoutCanvas.getHeight() /2));
+            // Запрашиваем фокус для Canvas при клике
+            gameLayoutCanvas.requestFocus();
+            if(!running && simpleAtraction != null){
+                // if click inside object pos + size find first one
+                //without canvas.scale
+//                Mover selectedMover = simpleAtraction.selectMover(new Point2D(event.getX() - windowFrame.gameLayoutCanvas.getWidth()/2, event.getY() - windowFrame.gameLayoutCanvas.getHeight() /2)) ;
+
+                //with canvas.scale
+                Mover selectedMover = simpleAtraction.selectMover(new Point2D((event.getX() - windowFrame.gameLayoutCanvas.getWidth()/2) / windowFrame.getCanvasScale(), (event.getY() - windowFrame.gameLayoutCanvas.getHeight() /2) / windowFrame.getCanvasScale())) ;
+                if(selectedMover != null) {
+                    System.out.println("Selected mover: " + selectedMover.getPosComp().position.toString());
+//                    selectedMover.setSize(100);
+                    System.out.println("Selected mover size: " + selectedMover.getSize().size);
+
+//                    selectedMover.setSize(selectedMover.getSize().size + 100);
+
+                    userControl.showCompControl(selectedMover.currentEntity);
+//
+                    //remove from entity
+                    engine.removeEntity(selectedMover.currentEntity);
+
+                    engine.update(0.0);
+
+                    Mover newMover = new Mover(selectedMover.getPosComp().position.getX(),
+                            selectedMover.getPosComp().position.getY(),
+                            selectedMover.getVelComp().getVelocity().getX(),
+                            selectedMover.getVelComp().getVelocity().getY(),
+                    selectedMover.getMassComp().mass.getValue(), selectedMover.getSize().size + 100, selectedMover.getColor().color);
+                    engine.addEntity(newMover.getCurrentEntity());
+
+                    simpleAtraction.simulationState.getMovers().remove(selectedMover);
+                    simpleAtraction.simulationState.getMovers().add(newMover);
+//                    getAllEntities(engine).remove(selectedMover.currentEntity);
+//                    getAllEntities(engine).add(selectedMover.currentEntity);
+
+                    System.out.println("New mover size: " + newMover.getSize().size);
+                    //draw двигает объекты
+                    simpleAtraction.redraw(gameLayoutCanvas.getGraphicsContext2D());
+                }
+            }
+        });
+    }
 
     /// Частота обновления симуляции
     private void createSimThread(Engine engine){
+
+        addCanvasListner(engine);
+
 
         // Создаем и запускаем поток для обновления симуляции
         simulationExecutor = Executors.newSingleThreadScheduledExecutor();
