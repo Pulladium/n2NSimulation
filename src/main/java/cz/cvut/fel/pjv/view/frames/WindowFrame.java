@@ -148,7 +148,10 @@ public class WindowFrame {
         appHBox.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldWidth, Number newWidth) {
-                appAncorPane.setPrefWidth(newWidth.doubleValue());
+
+//                appAncorPane.setPrefWidth(newWidth.doubleValue());
+                appAncorPane.setMinWidth(newWidth.doubleValue());
+                appAncorPane.setMaxWidth(newWidth.doubleValue());
 //                if (simpleAtraction != null) {
 //                    simpleAtraction.draw((GraphicsContext) gameLayoutCanvas.getGraphicsContext2D());
 //                }
@@ -158,7 +161,9 @@ public class WindowFrame {
         appHBox.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldHeight, Number newHeight) {
-                appAncorPane.setPrefHeight(newHeight.doubleValue());
+//                appAncorPane.setPrefHeight(newHeight.doubleValue());
+                appAncorPane.setMinHeight(newHeight.doubleValue());
+                appAncorPane.setMaxHeight(newHeight.doubleValue());
 //                if(simpleAtraction != null){
 //                    simpleAtraction.draw((GraphicsContext) gameLayoutCanvas.getGraphicsContext2D());
 //                }
