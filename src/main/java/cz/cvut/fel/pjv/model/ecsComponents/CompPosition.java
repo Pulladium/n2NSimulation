@@ -18,6 +18,9 @@ public class CompPosition extends Component {
     public CompPosition(Point2D position) {
         this.position = new Point2DExt(position);
     }
+    public void setPosition(Point2DExt position) {
+        this.position = position;
+    }
 
     @Override
     public String toString() {

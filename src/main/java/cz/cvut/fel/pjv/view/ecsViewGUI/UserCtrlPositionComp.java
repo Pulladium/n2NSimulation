@@ -90,10 +90,11 @@ public class UserCtrlPositionComp extends EntityCompUI{
             }
 //            thisComp.vector2D.xProperty().set(Double.parseDouble(newValue));
 
-            thisComp.position = new Point2DExt(Double.parseDouble(newValue), thisComp.position.getY());
+//            thisComp.position = new Point2DExt(Double.parseDouble(newValue), thisComp.position.getY());
+            thisComp.setPosition( new Point2DExt(Double.parseDouble(newValue), thisComp.position.getY()));
 //            Platform.runLater(() -> thisComp.position2D.xProperty().set(Double.parseDouble(newValue)));
 
-            simpleAtraction.draw(GLOBALS.windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
+            simpleAtraction.redraw(GLOBALS.windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
 
 
 //            thisComp.position2D.xProperty().set(50.0);
@@ -114,10 +115,10 @@ public class UserCtrlPositionComp extends EntityCompUI{
             }
 //            Platform.runLater(() -> thisComp.position2D.yProperty().set(Double.parseDouble(newValue)));
 //               thisComp.vector2D.yProperty().set(Double.parseDouble(newValue));
-            thisComp.position = new Point2DExt(thisComp.position.getX(), Double.parseDouble(newValue));
+            thisComp.setPosition( new Point2DExt(thisComp.position.getX(), Double.parseDouble(newValue)));
 //            thisComp.position2D.yProperty().set(50.0);
 //            doubleInputY.setText(String.valueOf(thisComp.position2D.yProperty().get()));
-            simpleAtraction.draw(GLOBALS.windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
+            simpleAtraction.redraw(GLOBALS.windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
         });
 
         CompVbox.getChildren().addAll(positionPropChangeBox1, positionPropChangeBox2);

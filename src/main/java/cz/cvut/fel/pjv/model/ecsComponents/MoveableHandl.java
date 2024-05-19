@@ -74,7 +74,7 @@ public class MoveableHandl extends Component {
 
     //Changes the velocity and 0s out the acceleration
     public void update() {
-//        setupComponents();
+        setupComponents();
         this.velComp.setVelocity( this.velComp.getVelocity().add(this.accComp.acceleration));
         this.posComp.position =new Point2DExt( this.posComp.position.add(this.velComp.getVelocity()));
         this.velComp.setVelocity(limit(this.velComp.getVelocity(), 15));
@@ -82,7 +82,7 @@ public class MoveableHandl extends Component {
     }
 
     public void show(GraphicsContext gc) {
-//        setupComponents();
+        setupComponents();
         gc.setFill(this.color.color);
         gc.fillOval(this.posComp.position.getX() - this.size.size / 2, this.posComp.position.getY() - this.size.size / 2, this.size.size, this.size.size);
     }
