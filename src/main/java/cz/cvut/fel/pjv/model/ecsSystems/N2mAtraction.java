@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -42,61 +43,45 @@ public class N2mAtraction extends EngineSystem {
 
 
         for (Mover mover : movers) {
-            MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);
-            if(sun != null) {
-                MoveableHandl sunMoveableHandl = sun.currentEntity.getComponent(MoveableHandl.class);
-                sunMoveableHandl.attract(moveableHandl.getEntity());
-            }
-            for (Mover other : movers) {
-                if (mover != other) {
-                    MoveableHandl otherMoveableHandl = other.currentEntity.getComponent(MoveableHandl.class);
-                    moveableHandl.attract(otherMoveableHandl.getEntity());
+
+            // Создаем задачу, которая будет выполняться в отдельном потоке
+            Callable<Void> task = new Callable<Void>() {
+
+                @Override
+                public Void call() {
+
+                    MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);
+                    if (sun != null) {
+                        MoveableHandl sunMoveableHandl = sun.currentEntity.getComponent(MoveableHandl.class);
+                        sunMoveableHandl.attract(moveableHandl.getEntity());
+                    }
+                    for (
+                            Mover other : movers) {
+                        if (mover != other) {
+                            MoveableHandl otherMoveableHandl = other.currentEntity.getComponent(MoveableHandl.class);
+                            moveableHandl.attract(otherMoveableHandl.getEntity());
+                        }
+                    }
+                    return null;
                 }
+            };
+
+            // Добавляем задачу в список задач, которые будут выполнены в потоках
+            futures.add(executor.submit(task));
+        }
+
+        // Ожидаем завершения всех задач
+        for (Future<Void> future : futures) {
+            try {
+                future.get();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-    }
 
-//    public void draw(GraphicsContext gc) {
-//        double WIDTH = gc.getCanvas().getWidth();
-//        double HEIGHT = gc.getCanvas().getHeight();
-//
-//
-//        gc.clearRect(0, 0, WIDTH, HEIGHT);
-//        gc.setFill(Color.BLACK);
-//        gc.fillRect(0, 0, WIDTH, HEIGHT);
-//
-////TODO To engine UPS
-//        for (Mover mover : movers) {
-//            MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);
-//            MoveableHandl sunMoveableHandl = sun.currentEntity.getComponent(MoveableHandl.class);
-//
-//
-////            sunMoveableHandl.attract(moveableHandl.getEntity());
-//            for (Mover other : movers) {
-//                if (mover != other) {
-//                    MoveableHandl otherMoveableHandl = other.currentEntity.getComponent(MoveableHandl.class);
-//                    moveableHandl.attract(otherMoveableHandl.getEntity());
-//                }
-//            }
-//
-//        }
-//        //TODO To engine finish
-//
-//        //TODO ToCanvasRenderer FPS
-//        gc.save();
-//        gc.translate(WIDTH / 2, HEIGHT / 2);
-//
-//        for (Mover mover : movers) {
-//            //changePos
-//            MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);
-//            moveableHandl.update();
-//            moveableHandl.show(gc);
-//        }
-//
-////        sun.currentEntity.getComponent(MoveableHandl.class).show(gc);
-//
-//        gc.restore();
-////        sun.show(gc, WIDTH / 2, HEIGHT / 2);
-//    }
+        // Завершаем работу ExecutorService
+        executor.shutdown();
+        //новый цикл update
+    }
 
 }
