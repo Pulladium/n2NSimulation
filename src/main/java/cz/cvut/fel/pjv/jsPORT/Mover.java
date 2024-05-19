@@ -69,4 +69,7 @@ public class Mover {
         return newEnt;
     }
 
+    public CompPosition getPosComp() {
+        return posComp;
+    }
 }

@@ -50,6 +50,9 @@ public class N2mAtraction extends EngineSystem {
                 @Override
                 public Void call() {
 
+                    System.out.println("Thread: " + Thread.currentThread().getName()
+                            + "thread id: " + Thread.currentThread().getId() +
+                            "Mover_pos: " + mover.getPosComp().toString() + " is moving"  );
                     MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);
                     if (sun != null) {
                         MoveableHandl sunMoveableHandl = sun.currentEntity.getComponent(MoveableHandl.class);
