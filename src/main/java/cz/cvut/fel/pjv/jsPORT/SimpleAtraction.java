@@ -75,6 +75,19 @@ public class SimpleAtraction {
 
 
     }
+    public Mover selectMover(Point2D point){
+//        point = new Point2D(point.getX() - (double) window.getWidth() /2 - window.offsetX, point.getY() - (double) window.getHeight() /2 - window.offsetY);
+        for (Mover mover : simulationState.getMovers()) {
+            System.out.println("Mover: " + mover.getPosComp().position.toString() + " point: " + point.toString());
+            if(point.getX() <=  mover.getPosComp().position.getX() + mover.size.size  &&
+                    point.getX() >=  mover.getPosComp().position.getX() - mover.size.size &&
+                    point.getY() <=  mover.getPosComp().position.getY() + mover.size.size &&
+                    point.getY() >=  mover.getPosComp().position.getY() - mover.size.size){
+                return mover;
+            }
+        }
+        return null;
+    }
 
     private void setup() {
         simulationState = new SimulationState();
@@ -82,7 +95,8 @@ public class SimpleAtraction {
 
 //        simulationState.createNwithoutAtractor(50);
 
-        simulationState.createDefaultState();
+//        simulationState.createDefaultState();
+        simulationState.createNwithoutAtractor(3);
         n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
         engine.addSystem(n2mAtraction);
     }
@@ -119,6 +133,36 @@ public class SimpleAtraction {
 //        sun.show(gc, WIDTH / 2, HEIGHT / 2);
     }
 
+    public void redraw(GraphicsContext gc) {
+        double WIDTH = gc.getCanvas().getWidth();
+        double HEIGHT = gc.getCanvas().getHeight();
+        gc.clearRect(0, 0, WIDTH, HEIGHT);
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, WIDTH, HEIGHT);
+
+//ODO To engine UPS
+
+        //ODO To engine finish
+
+        //TODO ToCanvasRenderer FPS
+        gc.save();
+        gc.translate(WIDTH / 2 + window.offsetX, HEIGHT / 2 + window.offsetY);
+
+        gc.scale(window.getCanvasScale() , window.getCanvasScale() );
+
+        for (Mover mover : simulationState.getMovers()) {
+            //changePos
+            MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);
+//            moveableHandl.update();
+            moveableHandl.show(gc);
+        }
+
+        if(simulationState.getSun() != null) {
+            simulationState.getSun().currentEntity.getComponent(MoveableHandl.class).show(gc);
+        }
+        gc.restore();
+//        sun.show(gc, WIDTH / 2, HEIGHT / 2);
+    }
 
 
 

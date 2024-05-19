@@ -30,6 +30,14 @@ public class Mover {
     @Expose
     MassComponent massComp;
 
+    public CompSize getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = new CompSize(size);
+    }
+
     @Expose
     CompSize size;
     @Expose
@@ -63,7 +71,7 @@ public class Mover {
 
         newEnt.addComponent(new CompSize(size.size));
         newEnt.addComponent(new CompColor(color.color));
-        newEnt.addComponent(new CompRadius(size.size/2));
+//        newEnt.addComponent(new CompRadius(size.size/2));
 
         newEnt.addComponent(new MoveableHandl(newEnt));
         return newEnt;
