@@ -80,8 +80,9 @@ public class SimpleAtraction {
         simulationState = new SimulationState();
 //        simulationState.createDefaultState();
 
-        simulationState.createNwithoutAtractor(50);
+//        simulationState.createNwithoutAtractor(50);
 
+        simulationState.createDefaultState();
         n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
         engine.addSystem(n2mAtraction);
     }

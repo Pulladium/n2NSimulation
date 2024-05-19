@@ -7,6 +7,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class N2mAtraction extends EngineSystem {
 
@@ -31,6 +35,12 @@ public class N2mAtraction extends EngineSystem {
 
     @Override
     public void update(double dT) {
+
+        // Создаем ExecutorService с фиксированным пулом потоков, размер которого равен количеству доступных процессоров
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        List<Future<Void>> futures = new ArrayList<>();
+
+
         for (Mover mover : movers) {
             MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);
             if(sun != null) {
