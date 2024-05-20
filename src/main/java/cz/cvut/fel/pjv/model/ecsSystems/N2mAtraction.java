@@ -76,12 +76,14 @@ public class N2mAtraction extends EngineSystem {
             futures.add(executor.submit(task));
         }
 
+
         // Ожидаем завершения всех задач
         for (Future<Void> future : futures) {
             try {
                 future.get();
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Not actualy an error" + e);
+//                e.printStackTrace();
             }
         }
 

@@ -21,7 +21,6 @@ import static cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt.random2D;
 import static cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt.rotate;
 
 public class SimpleAtraction {
-//    private final double G = 0.4;
 
 
 //    private final UserControl gui;

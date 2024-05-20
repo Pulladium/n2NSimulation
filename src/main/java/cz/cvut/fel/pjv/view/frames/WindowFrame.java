@@ -271,6 +271,8 @@ public class WindowFrame {
         running = false;
 
 
+        //wait until Sim thread fully
+//        simShutdown();
         guiLayoutPane.setVisible(true);
 
         appAncorPane.setMinWidth(appHBox.getWidth() - 200);
@@ -289,6 +291,7 @@ public class WindowFrame {
         appAncorPane.setMinWidth(appHBox.getWidth());
         appAncorPane.setMaxWidth(appHBox.getWidth());
         guiLayoutPane.setPrefWidth(0);
+//        createSimThread(engine);
         gameLoopAnim.start();
     }
 
