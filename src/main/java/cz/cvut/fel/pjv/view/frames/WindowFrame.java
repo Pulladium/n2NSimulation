@@ -4,6 +4,7 @@ import at.fhooe.mtd.ecs.Engine;
 //import cz.cvut.fel.pjv.controller.canvasRender.CanvasRenderer;
 import cz.cvut.fel.pjv.jsPORT.Mover;
 import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
+import cz.cvut.fel.pjv.view.ecsViewGUI.UiNewSim;
 import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
@@ -46,7 +47,9 @@ public class WindowFrame {
     Pane guiLayoutPane;
     private double canvasScale = 0.5;
 
-    UserControl userControl = UserControl.get();
+
+    UiNewSim uiNewSim = UiNewSim.get();
+//    UserControl userControl = UserControl.get();
 
 
     private ScheduledExecutorService simulationExecutor;
@@ -85,7 +88,7 @@ public class WindowFrame {
         System.out.println("GuiLayoutPane create width: " + guiLayoutPane.getWidth());
 
 
-        userControl.setWindow(this);
+//        userControl.setWindow(this);
         appHBox.getChildren().add(guiLayoutPane);
         guiLayoutPane.setVisible(false);
         return null;
@@ -271,6 +274,8 @@ public class WindowFrame {
         guiLayoutPane.setPrefWidth(200);
 
         System.out.println("GuiLayoutPane width: " + guiLayoutPane.getWidth());
+
+        uiNewSim.setWindow(this);
 //                guiLayoutPane.setVisible(true);
     }
 
@@ -340,7 +345,7 @@ public class WindowFrame {
 
 //                    selectedMover.setSize(selectedMover.getSize().size + 100);
 
-                    userControl.showCompControl(selectedMover.currentEntity);
+//                    userControl.showCompControl(selectedMover.currentEntity);
 //
                     //remove from entity
                     engine.removeEntity(selectedMover.currentEntity);
