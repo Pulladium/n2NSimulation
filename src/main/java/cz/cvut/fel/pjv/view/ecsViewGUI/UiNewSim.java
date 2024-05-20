@@ -63,26 +63,26 @@ public class UiNewSim {
 
         // Позиция
         Label positionLabel = new Label("Position: ");
-        TextField posXTextField = new TextField(); // Координата X
-        TextField posYTextField = new TextField(); // Координата Y
+        TextField posXTextField = new TextField("0"); // Координата X
+        TextField posYTextField = new TextField("0"); // Координата Y
         posXTextField.setPromptText("Enter X coordinate");
         posYTextField.setPromptText("Enter Y coordinate");
 
         // Скорость
         Label velocityLabel = new Label("Velocity: ");
-        TextField veloXTextField = new TextField(); // Скорость X
-        TextField veloYTextField = new TextField(); // Скорость Y
+        TextField veloXTextField = new TextField("0"); // Скорость X
+        TextField veloYTextField = new TextField("0"); // Скорость Y
         veloXTextField.setPromptText("Enter X velocity");
         veloYTextField.setPromptText("Enter Y velocity");
 
         // Масса
         Label massLabel = new Label("Mass: ");
-        TextField massTextField = new TextField();
+        TextField massTextField = new TextField("100");
         massTextField.setPromptText("Enter mass value");
 
         // Размер
         Label sizeLabel = new Label("Size: ");
-        TextField sizeTextField = new TextField();
+        TextField sizeTextField = new TextField("100");
         sizeTextField.setPromptText("Enter size value");
 
         // Добавление всех компонентов в контейнер
