@@ -179,10 +179,9 @@ public class UiNewSim {
                         return;
                     }
                     windowFrame.getSim().simulationState.createNwithAtractor(moverCount, sun);
-                } else {
-
+                }
+                else {
                     windowFrame.getSim().simulationState.createNwithoutAtractor(moverCount);
-
                 }
                 windowFrame.getEngine().removeAll();//only entities
                 for (int i = 0; i < windowFrame.getEngine().getNumOfSystems(); i++) {

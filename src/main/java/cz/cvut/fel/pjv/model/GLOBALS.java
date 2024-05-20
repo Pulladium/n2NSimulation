@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GLOBALS {
-    public static final double G = 0.1;
+    public static final double G = 0.4;
 
     public static List<Entity> getAllEntities(Engine engine) {
         EntityFamily movers = EntityFamily.create(CompAcceleration.class, CompColor.class, CompVelocity.class, CompRadius.class, CompSize.class, MassComponent.class);
