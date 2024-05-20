@@ -77,5 +77,18 @@ public class SimulationState {
             movers.add(new Mover(pos.getX(), pos.getY(), vel.getX(), vel.getY(), m, size, randomColor()));
         }
     }
+    public void createNwithAtractor(int n, Mover sun){
+        Random random = new Random();
+        for (int i = 0; i < n; i++) {
+            Point2D pos = random2D().multiply(random.nextDouble() * 50 + 150);
+            Point2D vel = pos.normalize().multiply(random.nextDouble() * 5 + 10);
+            vel = rotate(vel, Math.PI / 2);
+            double m = random.nextDouble() * 5 + 10;
+            double size = random.nextDouble() * 10 + 5;
+
+            movers.add(new Mover(pos.getX(), pos.getY(), vel.getX(), vel.getY(), m, size, randomColor()));
+        }
+        this.sun = sun;
+    }
 
 }

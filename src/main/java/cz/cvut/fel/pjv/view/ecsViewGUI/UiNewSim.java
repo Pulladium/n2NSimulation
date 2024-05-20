@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.view.ecsViewGUI;
 
+import cz.cvut.fel.pjv.jsPORT.Mover;
 import cz.cvut.fel.pjv.model.SimulationState;
 import cz.cvut.fel.pjv.model.ecsSystems.N2mAtraction;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
@@ -7,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class UiNewSim {
 
@@ -56,7 +58,7 @@ public class UiNewSim {
     }
 
 
-    public void showSunProp() {
+    public VBox showSunProp() {
         // Создание контейнера для свойств солнца
         VBox sunPropsContainer = new VBox(10); // Пространство между элементами
         sunPropsContainer.setStyle("-fx-padding: 10px; -fx-border-color: #ddd; -fx-border-width: 1px;");
@@ -95,10 +97,44 @@ public class UiNewSim {
         sliderPane.getChildren().add(sunPropsContainer);
 
         System.out.println("Sun properties input fields have been displayed.");
+        return sunPropsContainer;
     }
+
+    private Mover createSunAndValidateProp(VBox sunPropsContainer){
+        if(sunPropsContainer == null){
+            System.out.println("Sun properties container is null");
+            return null;
+        }
+        TextField posXTextField = (TextField) sunPropsContainer.getChildren().get(1);
+        TextField posYTextField = (TextField) sunPropsContainer.getChildren().get(2);
+        TextField veloXTextField = (TextField) sunPropsContainer.getChildren().get(4);
+        TextField veloYTextField = (TextField) sunPropsContainer.getChildren().get(5);
+        TextField massTextField = (TextField) sunPropsContainer.getChildren().get(7);
+        TextField sizeTextField = (TextField) sunPropsContainer.getChildren().get(9);
+
+        try {
+            double posX = Double.parseDouble(posXTextField.getText());
+            double posY = Double.parseDouble(posYTextField.getText());
+            double veloX = Double.parseDouble(veloXTextField.getText());
+            double veloY = Double.parseDouble(veloYTextField.getText());
+            double mass = Double.parseDouble(massTextField.getText());
+            double size = Double.parseDouble(sizeTextField.getText());
+            if(mass <= 0 || size <= 0){
+                System.out.println("Invalid mass or size value");
+                return null;
+            }
+            System.out.println("Sun properties have been validated");
+            Color color = Color.YELLOW;
+            return new Mover(posX, posY, veloX, veloY, mass, size, color);
+        } catch (NumberFormatException e){
+            System.out.println("Invalid number format in sun properties");
+            return null;
+        }
+    }
+    private VBox sunPropContainer = null;
     public void showSimStartProperties(){
         // Create text field for entering the number of movers
-        TextField moverCountTextField = new TextField("");
+        TextField moverCountTextField = new TextField("1");
         moverCountTextField.setPromptText("Mover Count");
 
         // Create checkbox for determining if the sun is present
@@ -114,9 +150,11 @@ public class UiNewSim {
             System.out.println("Sun checkbox changed to " + newValue);
             if(newValue) { // Update the variable when the checkbox state changes
                 // Optionally, call showSunProp() here to immediately reflect the change
-                showSunProp();
+                sunPropContainer = showSunProp();
             }
         });
+
+
 
 
 
@@ -131,10 +169,20 @@ public class UiNewSim {
                 }
                 windowFrame.getSim().simulationState = new SimulationState();
                 if(hasSunCheckBox.isSelected()){
-                    windowFrame.getSim().simulationState.createDefaultState();
+                    if(sunPropContainer == null){
+                        System.out.println("Sun properties container is null");
+                        return;
+                    }
+                    Mover sun = createSunAndValidateProp(sunPropContainer);
+                    if(sun == null){
+                        System.out.println("Sun is null");
+                        return;
+                    }
+                    windowFrame.getSim().simulationState.createNwithAtractor(moverCount, sun);
                 } else {
 
                     windowFrame.getSim().simulationState.createNwithoutAtractor(moverCount);
+
                 }
                 windowFrame.getEngine().removeAll();//only entities
                 for (int i = 0; i < windowFrame.getEngine().getNumOfSystems(); i++) {
