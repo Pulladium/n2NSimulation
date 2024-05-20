@@ -31,8 +31,10 @@ public class N2mAtraction extends EngineSystem {
         this.movers = movers;
     }
 
-
-
+    public void setMovers(ArrayList<Mover> movers, Mover sun) {
+        this.movers = movers;
+        this.sun = sun;
+    }
 
     @Override
     public void update(double dT) {

@@ -48,6 +48,8 @@ public class WindowFrame {
     private double canvasScale = 0.5;
 
 
+    private Engine engine;
+
     UiNewSim uiNewSim = UiNewSim.get();
 //    UserControl userControl = UserControl.get();
 
@@ -69,6 +71,7 @@ public class WindowFrame {
         this.width = 1200;
         this.height = 1000;
         this.title = "EngineFX";
+
     }
 
     private Parent createGUI(){
@@ -135,6 +138,7 @@ public class WindowFrame {
         appHBox.getChildren().add(appAncorPane);
 
         createGUI();
+        uiNewSim.setWindow(this);
 
 //        appAncorPane.setMinWidth(appHBox.getWidth()- 200);
 //        appAncorPane.setMaxWidth(appHBox.getWidth() - 200);
@@ -275,7 +279,7 @@ public class WindowFrame {
 
         System.out.println("GuiLayoutPane width: " + guiLayoutPane.getWidth());
 
-        uiNewSim.setWindow(this);
+
 //                guiLayoutPane.setVisible(true);
     }
 
@@ -375,6 +379,8 @@ public class WindowFrame {
     /// Частота обновления симуляции
     private void createSimThread(Engine engine){
 
+
+        this.engine = engine;
         addCanvasListner(engine);
 
 
@@ -430,5 +436,9 @@ public class WindowFrame {
     //setters
     public void setCanvasScale(double canvasScale) {
         this.canvasScale = canvasScale;
+    }
+
+    public Engine getEngine() {
+        return engine;
     }
 }

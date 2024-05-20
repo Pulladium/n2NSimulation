@@ -1,6 +1,7 @@
 package cz.cvut.fel.pjv.view.ecsViewGUI;
 
 import cz.cvut.fel.pjv.model.SimulationState;
+import cz.cvut.fel.pjv.model.ecsSystems.N2mAtraction;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -135,6 +136,9 @@ public class UiNewSim {
 
                     windowFrame.getSim().simulationState.createNwithoutAtractor(moverCount);
                 }
+                windowFrame.getEngine().removeAll();
+                N2mAtraction n2mAtraction = new N2mAtraction(windowFrame.getSim().simulationState.getMovers(), windowFrame.getSim().simulationState.getSun());
+                windowFrame.getEngine().addSystem(n2mAtraction);
                 windowFrame.getSim().redraw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
 
                 System.out.println("Mover count: " + moverCount);
