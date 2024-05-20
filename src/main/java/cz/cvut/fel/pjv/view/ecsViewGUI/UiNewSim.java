@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.view.ecsViewGUI;
 
+import cz.cvut.fel.pjv.model.SimulationState;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -127,6 +128,15 @@ public class UiNewSim {
                     System.out.println("Invalid mover count: " + moverCount);
                     return;
                 }
+                windowFrame.getSim().simulationState = new SimulationState();
+                if(hasSunCheckBox.isSelected()){
+                    windowFrame.getSim().simulationState.createDefaultState();
+                } else {
+
+                    windowFrame.getSim().simulationState.createNwithoutAtractor(moverCount);
+                }
+                windowFrame.getSim().redraw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
+
                 System.out.println("Mover count: " + moverCount);
             }catch (NumberFormatException e){
                 System.out.println("Invalid mover count: " + moverCountTextField.getText());
