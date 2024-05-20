@@ -66,9 +66,18 @@ public class SimpleAtraction {
             System.out.println("Simulation state is null");
             return;
         }
-        if(n2mAtraction != null){
-            engine.removeSystem(n2mAtraction);
+//        if(n2mAtraction != null){
+//            engine.removeAll(); //remove all systems
+//        }
+        engine.removeAll();//only entities
+        int sysCnt = engine.getNumOfSystems();
+        System.out.println("Systems count: " + sysCnt);
+
+        for (int i = 0; i < sysCnt; i++) {
+            engine.removeSystem(engine.getSystem(0));
         }
+        sysCnt = engine.getNumOfSystems();
+        System.out.println("Systems count: " + sysCnt);
         //redraw after load
         draw(window.getGameLayoutCanvas().getGraphicsContext2D());
         n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());

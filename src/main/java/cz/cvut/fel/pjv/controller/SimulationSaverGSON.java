@@ -3,6 +3,7 @@ package cz.cvut.fel.pjv.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import cz.cvut.fel.pjv.jsPORT.Mover;
+import cz.cvut.fel.pjv.model.GLOBALS.*;
 import cz.cvut.fel.pjv.model.JsonAdapters.*;
 import cz.cvut.fel.pjv.model.SimulationState;
 import cz.cvut.fel.pjv.model.ecsComponents.CompColor;
@@ -80,6 +81,8 @@ public class SimulationSaverGSON {
                     .orElseThrow(() -> new IOException("No JSON files found in directory"));
 
             try (FileReader reader = new FileReader(dirPath + lastFilePath.getFileName().toString())) {
+
+
                 state = gson.fromJson(reader, SimulationState.class);
 
 
