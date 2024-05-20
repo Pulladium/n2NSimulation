@@ -8,22 +8,27 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(PowerMockExtension.class)
+@PrepareForTest({Engine.class})
 public class SimpleAtractionSelectMoverTest {
 
     @Mock
     private WindowFrame window;
 
-    //final calss cant mock
     @Mock
     private Engine engine;
 
@@ -38,6 +43,7 @@ public class SimpleAtractionSelectMoverTest {
 
     @BeforeEach
     public void setUp() {
+        PowerMockito.mockStatic(Engine.class);
         MockitoAnnotations.openMocks(this);
         when(simulationState.getMovers()).thenReturn(new ArrayList<>());
         simpleAtraction.simulationState = simulationState;
