@@ -84,7 +84,7 @@ public class UserControl {
 
             if(comp instanceof CompPosition){
                 System.out.println("PositionComponent found" + comp.toString());
-                UserCtrlPositionComp userCtrlPositionComp = new UserCtrlPositionComp("Position", (CompPosition) comp, sliderPane);
+                UserCtrlPositionComp userCtrlPositionComp = new UserCtrlPositionComp("Position", entity, sliderPane);
                 userCtrlPositionComp.buildUI();
             }
         }

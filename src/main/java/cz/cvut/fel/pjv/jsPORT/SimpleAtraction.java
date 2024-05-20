@@ -2,6 +2,8 @@ package cz.cvut.fel.pjv.jsPORT;
 
 import at.fhooe.mtd.ecs.Engine;
 //import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
+import at.fhooe.mtd.ecs.Entity;
+import at.fhooe.mtd.ecs.EntityFamily;
 import cz.cvut.fel.pjv.controller.SimulationSaverGSON;
 import cz.cvut.fel.pjv.model.SimulationState;
 import cz.cvut.fel.pjv.model.ecsComponents.MoveableHandl;
@@ -149,7 +151,14 @@ public class SimpleAtraction {
         gc.translate(WIDTH / 2 + window.offsetX, HEIGHT / 2 + window.offsetY);
 
         gc.scale(window.getCanvasScale() , window.getCanvasScale() );
-
+//
+//        EntityFamily family =
+//        for (Entity mover : engine.getEntities()) {
+//            //changePos
+//            MoveableHandl moveableHandl = mover.getComponent(MoveableHandl.class);
+//            moveableHandl.update();
+//            moveableHandl.show(gc);
+//        }
         for (Mover mover : simulationState.getMovers()) {
             //changePos
             MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);

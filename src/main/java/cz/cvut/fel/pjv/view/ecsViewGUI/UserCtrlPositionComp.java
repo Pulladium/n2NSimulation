@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.view.ecsViewGUI;
 
+import at.fhooe.mtd.ecs.Entity;
 import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
 import cz.cvut.fel.pjv.model.GLOBALS;
 import cz.cvut.fel.pjv.model.ecsComponents.CompPosition;
@@ -20,6 +21,7 @@ public class UserCtrlPositionComp extends EntityCompUI{
     private final CompPosition thisComp;
     private SimpleAtraction simpleAtraction;
 
+    private Entity currEnt;
 //    private final ImageComponent imageComponent;
 
 //    public UserCtrlPositionComp(String compName, PositionComponent thisComp, Pane layout, ImageComponent imageComponent, ImageComponent imageComponent1) {
@@ -32,10 +34,11 @@ public class UserCtrlPositionComp extends EntityCompUI{
 //
 //    }
 
-    public UserCtrlPositionComp(String compName, CompPosition thisComp, Pane layout) {
+    public UserCtrlPositionComp(String compName, Entity currEnt, Pane layout) {
 
         super(compName);
-        this.thisComp = thisComp;
+        this.currEnt = currEnt;
+        this.thisComp = currEnt.getComponent(CompPosition.class);
         this.layout = layout;
         this.simpleAtraction = GLOBALS.windowFrame.getSim();
     }
@@ -91,6 +94,10 @@ public class UserCtrlPositionComp extends EntityCompUI{
 //            thisComp.vector2D.xProperty().set(Double.parseDouble(newValue));
 
 //            thisComp.position = new Point2DExt(Double.parseDouble(newValue), thisComp.position.getY());
+
+
+
+            currEnt.getComponent(CompPosition.class).setPosition( new Point2DExt(Double.parseDouble(newValue), thisComp.position.getY()));
             thisComp.setPosition( new Point2DExt(Double.parseDouble(newValue), thisComp.position.getY()));
 //            Platform.runLater(() -> thisComp.position2D.xProperty().set(Double.parseDouble(newValue)));
 

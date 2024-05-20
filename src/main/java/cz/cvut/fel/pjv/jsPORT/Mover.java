@@ -31,7 +31,7 @@ public class Mover {
     MassComponent massComp;
 
     public CompSize getSize() {
-        return size;
+        return currentEntity.getComponent(CompSize.class);
     }
 
     public Entity getCurrentEntity() {
@@ -39,19 +39,19 @@ public class Mover {
     }
 
     public CompVelocity getVelComp() {
-        return velComp;
+        return currentEntity.getComponent(CompVelocity.class);
     }
 
     public CompAcceleration getAccComp() {
-        return accComp;
+        return currentEntity.getComponent(CompAcceleration.class);
     }
 
     public MassComponent getMassComp() {
-        return massComp;
+        return currentEntity.getComponent(MassComponent.class);
     }
 
     public CompColor getColor() {
-        return color;
+        return currentEntity.getComponent(CompColor.class);
     }
 
     @Expose
