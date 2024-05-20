@@ -28,22 +28,21 @@ public class SimulationSaverGSONTest {
         simulationSaverGSON.setCurrentState(simulationState);
     }
 
+
     @Test
-    public void testSaveSimStateGSON() {
-        String dirPath = "src/test/resources/saves";
+    public void testSaveSimStateGSON() throws Exception {
+        String dirPath = "src/test/resources/saves/";
+        Files.createDirectories(Paths.get(dirPath));
         simulationSaverGSON.saveSimStateGSON(dirPath);
 
         File dir = new File(dirPath);
-        assertTrue(dir.exists() && dir.isDirectory());
-
-        File[] files = dir.listFiles((d, name) -> name.endsWith(".json"));
-        assertNotNull(files);
-        assertTrue(files.length > 0);
+        File[] files = dir.listFiles((d, name) -> name.startsWith("simulation_state_") && name.endsWith(".json"));
+        assertTrue(files != null && files.length > 0);
     }
 
     @Test
     public void testLoadSimStateGSON() {
-        String dirPath = "src/test/resources/saves";
+        String dirPath = "src/test/resources/saves/";
         simulationSaverGSON.saveSimStateGSON(dirPath);
 
         SimulationState loadedState = simulationSaverGSON.loadSimStateGSON(dirPath);
