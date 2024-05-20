@@ -136,7 +136,10 @@ public class UiNewSim {
 
                     windowFrame.getSim().simulationState.createNwithoutAtractor(moverCount);
                 }
-                windowFrame.getEngine().removeAll();
+                windowFrame.getEngine().removeAll();//only entities
+                for (int i = 0; i < windowFrame.getEngine().getNumOfSystems(); i++) {
+                    windowFrame.getEngine().removeSystem(windowFrame.getEngine().getSystem(0));
+                }
                 N2mAtraction n2mAtraction = new N2mAtraction(windowFrame.getSim().simulationState.getMovers(), windowFrame.getSim().simulationState.getSun());
                 windowFrame.getEngine().addSystem(n2mAtraction);
                 windowFrame.getSim().redraw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
