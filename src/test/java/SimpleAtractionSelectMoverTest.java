@@ -1,9 +1,6 @@
-import at.fhooe.mtd.ecs.Engine;
 import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
 import cz.cvut.fel.pjv.model.SimulationState;
 import cz.cvut.fel.pjv.jsPORT.Mover;
-import cz.cvut.fel.pjv.model.ecsComponents.*;
-import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.
+import org.powermock.modules.junit4.PowerMockExtension;
 
 import java.util.ArrayList;
 
