@@ -407,6 +407,7 @@ public class WindowFrame {
 
 
 
+
     //getters
     public double getCanvasScale() {
         return canvasScale;

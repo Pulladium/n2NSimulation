@@ -27,7 +27,7 @@ public class SimpleAtraction {
     private final WindowFrame window;
     private final Engine engine;
 
-    N2mAtraction n2mAtraction;
+//    N2mAtraction n2mAtraction;
 
     public SimulationState simulationState;
 //    private ArrayList<Mover> movers = new ArrayList<>();
@@ -80,7 +80,7 @@ public class SimpleAtraction {
         System.out.println("Systems count: " + sysCnt);
         //redraw after load
         draw(window.getGameLayoutCanvas().getGraphicsContext2D());
-        n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
+        N2mAtraction n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
         engine.addSystem(n2mAtraction);
 
 
@@ -88,7 +88,7 @@ public class SimpleAtraction {
     public Mover selectMover(Point2D point){
 //        point = new Point2D(point.getX() - (double) window.getWidth() /2 - window.offsetX, point.getY() - (double) window.getHeight() /2 - window.offsetY);
         for (Mover mover : simulationState.getMovers()) {
-            System.out.println("Mover: " + mover.getPosComp().position.toString() + " point: " + point.toString());
+//            System.out.println("Mover: " + mover.getPosComp().position.toString() + " point: " + point.toString());
             if(point.getX() <=  mover.getPosComp().position.getX() + mover.size.size  &&
                     point.getX() >=  mover.getPosComp().position.getX() - mover.size.size &&
                     point.getY() <=  mover.getPosComp().position.getY() + mover.size.size &&
@@ -107,7 +107,7 @@ public class SimpleAtraction {
 
 //        simulationState.createDefaultState();
         simulationState.createNwithoutAtractor(3);
-        n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
+        N2mAtraction n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
         engine.addSystem(n2mAtraction);
     }
     public void draw(GraphicsContext gc) {
