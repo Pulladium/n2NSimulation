@@ -11,6 +11,10 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static cz.cvut.fel.pjv.model.GLOBALS.log;
 
 //podskazky
 
@@ -33,6 +37,9 @@ public class Main extends Application{
         // Создание окна
         windowFrame.run(primaryStage);
 
+
+
+
         //start simulationNplanets
 
 
@@ -44,7 +51,8 @@ public class Main extends Application{
 
         windowFrame.getCurrentScene().setOnKeyPressed(keyEvent ->
         {
-            System.out.println("Key pressed: " + keyEvent.getCode());
+            log("Key pressed: " + keyEvent.getCode(), Level.INFO);
+
             if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.P) {
                 if (windowFrame.isRunning())
                     windowFrame.pause();
@@ -112,6 +120,7 @@ public class Main extends Application{
 
     @Override
     public void stop() throws Exception {
+
         super.stop();
 
         windowFrame.simShutdown();

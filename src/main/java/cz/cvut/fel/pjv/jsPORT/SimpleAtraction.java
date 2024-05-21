@@ -16,7 +16,9 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
 
+import static cz.cvut.fel.pjv.model.GLOBALS.log;
 import static cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt.random2D;
 import static cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt.rotate;
 
@@ -63,21 +65,20 @@ public class SimpleAtraction {
 
 
         if( simulationState == null){
-            System.out.println("Simulation state is null");
+            log("Simulation state is null", Level.WARNING);
             return;
         }
-//        if(n2mAtraction != null){
-//            engine.removeAll(); //remove all systems
-//        }
+
         engine.removeAll();//only entities
         int sysCnt = engine.getNumOfSystems();
-        System.out.println("Systems count: " + sysCnt);
 
+        log("Systems count: " + sysCnt, Level.INFO);
         for (int i = 0; i < sysCnt; i++) {
             engine.removeSystem(engine.getSystem(0));
         }
         sysCnt = engine.getNumOfSystems();
-        System.out.println("Systems count: " + sysCnt);
+
+        log("Systems count: " + sysCnt, Level.INFO);
         //redraw after load
         draw(window.getGameLayoutCanvas().getGraphicsContext2D());
         N2mAtraction n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
