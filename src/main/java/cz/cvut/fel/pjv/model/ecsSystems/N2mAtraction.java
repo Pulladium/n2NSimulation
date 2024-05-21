@@ -12,6 +12,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
+
+import static cz.cvut.fel.pjv.model.GLOBALS.log;
 
 public class N2mAtraction extends EngineSystem {
 
@@ -56,6 +59,11 @@ public class N2mAtraction extends EngineSystem {
                             + "thread id: " + Thread.currentThread().getId() +
                             "Mover_pos: " + mover.getPosComp().toString() + " is moving"  );
                   */
+                    log("Thread: " + Thread.currentThread().getName()
+                            + "thread id: " + Thread.currentThread().getId() +
+                            "Mover_pos: " + mover.getPosComp().toString() + " is moving", Level.OFF);
+
+
                     MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);
                     if (sun != null) {
                         MoveableHandl sunMoveableHandl = sun.currentEntity.getComponent(MoveableHandl.class);
@@ -82,7 +90,8 @@ public class N2mAtraction extends EngineSystem {
             try {
                 future.get();
             } catch (Exception e) {
-                System.out.println("Not actualy an error" + e);
+                log("actualy an error" + e, Level.WARNING );
+//                System.out.println("Not actualy an error" + e);
 //                e.printStackTrace();
             }
         }

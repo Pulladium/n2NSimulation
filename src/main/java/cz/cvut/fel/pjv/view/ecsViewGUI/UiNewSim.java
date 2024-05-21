@@ -10,6 +10,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.util.logging.Level;
+
+import static cz.cvut.fel.pjv.model.GLOBALS.log;
+
 public class UiNewSim {
 
     private Pane parentPane;
@@ -96,7 +100,8 @@ public class UiNewSim {
         // Добавление контейнера в основной пейс
         sliderPane.getChildren().add(sunPropsContainer);
 
-        System.out.println("Sun properties input fields have been displayed.");
+//        System.out.println("Sun properties input fields have been displayed.");
+        log("Sun properties input fields have been displayed.", Level.INFO);
         return sunPropsContainer;
     }
 
@@ -147,7 +152,8 @@ public class UiNewSim {
 
         // Set up a listener for the checkbox
         hasSunCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Sun checkbox changed to " + newValue);
+            log("Sun checkbox changed to " + newValue, Level.INFO);
+//            System.out.println("Sun checkbox changed to " + newValue);
             if(newValue) { // Update the variable when the checkbox state changes
                 // Optionally, call showSunProp() here to immediately reflect the change
                 sunPropContainer = showSunProp();
@@ -159,23 +165,27 @@ public class UiNewSim {
 
 
         startSimButton.setOnAction(event -> {
-            System.out.println("Start simulation button clicked");
+//            System.out.println("Start simulation button clicked");
+            log("Start simulation button clicked", Level.INFO);
             // Get the number of movers from the text field
             try {
                 int moverCount = Integer.parseInt(moverCountTextField.getText());
                 if(moverCount < 0) {
-                    System.out.println("Invalid mover count: " + moverCount);
+//                    System.out.println("Invalid mover count: " + moverCount);
+                    log("Invalid mover count: " + moverCount, Level.WARNING);
                     return;
                 }
                 windowFrame.getSim().simulationState = new SimulationState();
                 if(hasSunCheckBox.isSelected()){
                     if(sunPropContainer == null){
-                        System.out.println("Sun properties container is null");
+//                        System.out.println("Sun properties container is null");
+                        log("Sun properties container is null", Level.WARNING);
                         return;
                     }
                     Mover sun = createSunAndValidateProp(sunPropContainer);
                     if(sun == null){
-                        System.out.println("Sun is null");
+//                        System.out.println("Sun is null");
+                        log("Sun is null", Level.WARNING);
                         return;
                     }
                     windowFrame.getSim().simulationState.createNwithAtractor(moverCount, sun);
@@ -191,9 +201,11 @@ public class UiNewSim {
                 windowFrame.getEngine().addSystem(n2mAtraction);
                 windowFrame.getSim().redraw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
 
-                System.out.println("Mover count: " + moverCount);
+//                System.out.println("Mover count: " + moverCount);
+                log("Mover count: " + moverCount, Level.INFO);
             }catch (NumberFormatException e){
-                System.out.println("Invalid mover count: " + moverCountTextField.getText());
+                log("Invalid mover count: " + moverCountTextField.getText(), Level.WARNING);
+//                System.out.println("Invalid mover count: " + moverCountTextField.getText());
                 return;
             }
 

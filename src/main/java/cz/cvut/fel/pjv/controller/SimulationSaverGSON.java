@@ -18,7 +18,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.stream.Stream;
+
+import static cz.cvut.fel.pjv.model.GLOBALS.log;
 
 
 public class SimulationSaverGSON {
@@ -61,7 +64,8 @@ public class SimulationSaverGSON {
         // Проверка существования директории
         Path directory = Paths.get(dirPath);
         if (!Files.exists(directory)) {
-            System.err.println("Directory does not exist: " + directory);
+            log("Directory does not exist: " + directory, Level.WARNING);
+//            System.err.println("Directory does not exist: " + directory);
             return null;
         }
 
@@ -97,6 +101,9 @@ public class SimulationSaverGSON {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            log("Simulation state loaded", Level.INFO);
         }
         return state;
     }

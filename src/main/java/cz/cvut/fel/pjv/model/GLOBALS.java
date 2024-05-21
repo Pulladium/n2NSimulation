@@ -18,6 +18,7 @@ public class GLOBALS {
     public static final Logger globalLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME); Level level = Level.INFO;
 
     public static void log(String message, Level level) {
+        globalLogger.setLevel(level);
         globalLogger.log(level, message);
     }
 

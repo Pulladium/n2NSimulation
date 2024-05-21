@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import static cz.cvut.fel.pjv.model.GLOBALS.*;
 
@@ -143,7 +144,10 @@ public class WindowFrame {
 //        appAncorPane.setMinWidth(appHBox.getWidth()- 200);
 //        appAncorPane.setMaxWidth(appHBox.getWidth() - 200);
 //        gameLayoutCanvas.setWidth(appHBox.getWidth() - 200);
-        System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
+//        System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
+
+        log("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth(), Level.INFO);
+
 
 
 
@@ -155,7 +159,8 @@ public class WindowFrame {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldWidth, Number newWidth) {
 
-                System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
+                log("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth(), Level.INFO);
+//                System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
 
                 if(guiLayoutPane.isVisible()) {
                     appAncorPane.setMinWidth(newWidth.doubleValue() - guiLayoutPane.getWidth());
@@ -173,7 +178,8 @@ public class WindowFrame {
             public void changed(ObservableValue<? extends Number> observable, Number oldHeight, Number newHeight) {
 
 
-                System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
+                log("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth(), Level.INFO);
+//                System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
                 appAncorPane.setMinHeight(newHeight.doubleValue());
                 appAncorPane.setMaxHeight(newHeight.doubleValue());
 
@@ -220,8 +226,9 @@ public class WindowFrame {
         return WindowFrame.instance;
     }
     public void run(Stage stage){
-        System.out.println("Running window: " + this.title + " with width: " + this.width + " and height: " + this.height);
+//        System.out.println("Running window: " + this.title + " with width: " + this.width + " and height: " + this.height);
 
+        log("Running window: " + this.title + " with width: " + this.width + " and height: " + this.height, Level.INFO);
         init();
 
         stage.setScene(currentScene);
@@ -232,7 +239,8 @@ public class WindowFrame {
     }
 
     private void init(){
-        System.out.println("Initializing window");
+//        System.out.println("Initializing window");
+        log("Initializing window", Level.INFO);
         currentScene = new Scene(createContent(), width, height);
 
         //Init FX
@@ -259,8 +267,9 @@ public class WindowFrame {
 
         gameLoopAnim.start();
         // Главный цикл анимации
-        System.out.println("Looping window");
+//        System.out.println("Looping window");
 
+        log("Looping window", Level.INFO);
     }
     public void stopLoop(){
         gameLoopAnim.stop();
@@ -334,8 +343,10 @@ public class WindowFrame {
         gameLayoutCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 //            System.out.println("Sun pos: " + simpleAtraction.simulationState.getSun().getPosComp().position.toString());
 //            System.out.println("Mouse Clicked at: " + event.getX() + ", " + event.getY());
-            System.out.println("Canvas width: " + gameLayoutCanvas.getWidth() + " height: " + gameLayoutCanvas.getHeight());
-            System.out.println("Mouse Clicked at: " + (event.getX() - windowFrame.gameLayoutCanvas.getWidth()/2) + ", " + (event.getY() - windowFrame.gameLayoutCanvas.getHeight() /2));
+//            System.out.println("Canvas width: " + gameLayoutCanvas.getWidth() + " height: " + gameLayoutCanvas.getHeight());
+            log("Canvas width: " + gameLayoutCanvas.getWidth() + " height: " + gameLayoutCanvas.getHeight(), Level.INFO);
+            log("Mouse Clicked at: " + event.getX() + ", " + event.getY(), Level.INFO);
+//            System.out.println("Mouse Clicked at: " + (event.getX() - windowFrame.gameLayoutCanvas.getWidth()/2) + ", " + (event.getY() - windowFrame.gameLayoutCanvas.getHeight() /2));
             // Запрашиваем фокус для Canvas при клике
             gameLayoutCanvas.requestFocus();
             if(!running && simpleAtraction != null){
@@ -346,9 +357,11 @@ public class WindowFrame {
                 //with canvas.scale
                 Mover selectedMover = simpleAtraction.selectMover(new Point2D((event.getX() - windowFrame.gameLayoutCanvas.getWidth()/2) / windowFrame.getCanvasScale(), (event.getY() - windowFrame.gameLayoutCanvas.getHeight() /2) / windowFrame.getCanvasScale())) ;
                 if(selectedMover != null) {
-                    System.out.println("Selected mover: " + selectedMover.getPosComp().position.toString());
+                    log("Selected mover: " + selectedMover.getPosComp().position.toString(), Level.INFO);
+//                    System.out.println("Selected mover: " + selectedMover.getPosComp().position.toString());
 //                    selectedMover.setSize(100);
-                    System.out.println("Selected mover size: " + selectedMover.getSize().size);
+                    log("Selected mover size: " + selectedMover.getSize().size, Level.INFO);
+//                    System.out.println("Selected mover size: " + selectedMover.getSize().size);
 
 //                    selectedMover.setSize(selectedMover.getSize().size + 100);
 
@@ -371,7 +384,8 @@ public class WindowFrame {
 //                    getAllEntities(engine).remove(selectedMover.currentEntity);
 //                    getAllEntities(engine).add(selectedMover.currentEntity);
 
-                    System.out.println("New mover size: " + newMover.getSize().size);
+//                    System.out.println("New mover size: " + newMover.getSize().size);
+                    log("New mover size: " + newMover.getSize().size, Level.INFO);
                     //draw двигает объекты
                     simpleAtraction.redraw(gameLayoutCanvas.getGraphicsContext2D());
                 }
