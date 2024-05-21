@@ -49,6 +49,9 @@ public class SimulationState {
 
     public void createDefaultState(){
         //
+        if(movers == null){
+            movers = new ArrayList<>();
+        }
         Random random = new Random();
         for (int i = 0; i < 100; i++) {
             Point2D pos = random2D().multiply(random.nextDouble() * 50 + 150);
@@ -66,6 +69,9 @@ public class SimulationState {
     }
 
     public void createNwithoutAtractor(int n){
+        if(movers == null){
+            movers = new ArrayList<>();
+        }
         Random random = new Random();
         for (int i = 0; i < n; i++) {
             Point2D pos = random2D().multiply(random.nextDouble() * 50 + 150);
@@ -78,6 +84,10 @@ public class SimulationState {
         }
     }
     public void createNwithAtractor(int n, Mover sun){
+        if(movers == null){
+            movers = new ArrayList<>();
+        }
+
         Random random = new Random();
         for (int i = 0; i < n; i++) {
             Point2D pos = random2D().multiply(random.nextDouble() * 50 + 150);

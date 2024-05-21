@@ -99,6 +99,10 @@ public class SimpleAtraction {
         return null;
     }
 
+    public SimulationState getSimulationState() {
+        return simulationState;
+    }
+
     private void setup() {
         simulationState = new SimulationState();
 //        simulationState.createDefaultState();
