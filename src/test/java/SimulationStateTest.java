@@ -1,5 +1,3 @@
-package cz.cvut.fel.pjv.model;
-
 import cz.cvut.fel.pjv.jsPORT.Mover;
 import cz.cvut.fel.pjv.model.SimulationState;
 import javafx.scene.paint.Color;
