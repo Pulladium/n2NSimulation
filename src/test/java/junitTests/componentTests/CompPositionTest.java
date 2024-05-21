@@ -1,4 +1,4 @@
-package junitTests;
+package junitTests.componentTests;
 
 import cz.cvut.fel.pjv.model.ecsComponents.CompPosition;
 import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt;

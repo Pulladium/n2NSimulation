@@ -18,4 +18,8 @@ public class CompAcceleration extends Component {
     public CompAcceleration(Point2D acceleration) {
         this.acceleration = new Point2DExt(acceleration);
     }
+
+    public void setAcceleration(Point2DExt acceleration) {
+        this.acceleration = acceleration;
+    }
 }
