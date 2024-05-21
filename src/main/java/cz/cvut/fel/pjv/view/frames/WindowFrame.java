@@ -218,13 +218,22 @@ public class WindowFrame {
     }
 
 
-    //need 1 win
+    /**
+     * Singleton method to get the instance of WindowFrame.
+     *
+     * @return The single instance of WindowFrame.
+     */
     public static WindowFrame get(){
         if(instance == null){
             WindowFrame.instance = new WindowFrame();
         }
         return WindowFrame.instance;
     }
+    /**
+     * Runs the application window.
+     *
+     * @param stage The primary stage for this application.
+     */
     public void run(Stage stage){
 //        System.out.println("Running window: " + this.title + " with width: " + this.width + " and height: " + this.height);
 
@@ -238,6 +247,9 @@ public class WindowFrame {
 //        loop(engine);
     }
 
+    /**
+     * Initializes the window and sets up the scene.
+     */
     private void init(){
 //        System.out.println("Initializing window");
         log("Initializing window", Level.INFO);
@@ -251,7 +263,12 @@ public class WindowFrame {
 
 
 
-
+    /**
+     * Starts the main loop of the application.
+     *
+     * @param engine The engine to be used in the loop.
+     * @param simpleAtraction The SimpleAtraction instance to be used in the loop.
+     */
     public void loop(Engine engine, SimpleAtraction simpleAtraction){
 //        System.out.println("Canvas renderer created");
 //        CanvasRenderer canvasRenderer = new CanvasRenderer((CanvasFrame) gameLayoutCanvas, engine);
@@ -271,10 +288,16 @@ public class WindowFrame {
 
         log("Looping window", Level.INFO);
     }
+    /**
+     * Stops the main loop of the application.
+     */
     public void stopLoop(){
         gameLoopAnim.stop();
     }
 
+    /**
+     * Pauses the application.
+     */
     public void pause() {
         gameLoopAnim.stop();
         running = false;
@@ -294,6 +317,9 @@ public class WindowFrame {
 //                guiLayoutPane.setVisible(true);
     }
 
+    /**
+     * Resumes the application.
+     */
     public void resume() {
         running = true;
         guiLayoutPane.setVisible(false);
@@ -304,6 +330,11 @@ public class WindowFrame {
         gameLoopAnim.start();
     }
 
+    /**
+     * Checks if the application is running.
+     *
+     * @return True if the application is running, false otherwise.
+     */
     public boolean isRunning() {
         return running;
     }
