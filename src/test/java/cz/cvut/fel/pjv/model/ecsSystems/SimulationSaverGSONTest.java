@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//integrcni test 1
 public class SimulationSaverGSONTest {
 
     private SimulationSaverGSON simulationSaverGSON;

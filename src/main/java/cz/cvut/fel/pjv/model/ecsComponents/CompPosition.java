@@ -22,6 +22,10 @@ public class CompPosition extends Component {
         this.position = position;
     }
 
+    public Point2DExt getPosition() {
+        return position;
+    }
+
     @Override
     public String toString() {
         return "CompPosition{" +
