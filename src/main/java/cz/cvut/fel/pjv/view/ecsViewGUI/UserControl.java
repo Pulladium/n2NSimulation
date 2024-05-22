@@ -11,6 +11,11 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+/**
+ *
+ * @deprecated
+ *   @hidden
+ **/
 public class UserControl {
 
     private WindowFrame windowFrame;

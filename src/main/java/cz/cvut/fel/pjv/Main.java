@@ -2,8 +2,8 @@ package cz.cvut.fel.pjv;
 
 import at.fhooe.mtd.ecs.Engine;
 
-//import cz.cvut.fel.pjv.controller.Simulation2planet;
-import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
+//import cz.cvut.fel.pjv.controllers.Simulation2planet;
+import cz.cvut.fel.pjv.controllers.SimpleAtraction;
 //import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.application.Application;
@@ -12,11 +12,9 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static cz.cvut.fel.pjv.model.GLOBALS.log;
 
-//podskazky
 
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -100,19 +98,6 @@ public class Main extends Application{
 
             }
         });
-//        //TUTA PRACUJE
-//        pos.vector2D.xProperty().set(200);
-//        pos.vector2D.yProperty().set(200);
-////
-//        ImageComponent img = earth.getComponent(ImageComponent.class);
-//        img.bindPosition(pos);
-////
-////
-////        //где андинд то
-//
-//        ui.setWindow(window);
-//        ui.showCompControl(earth);
-
 
 
 

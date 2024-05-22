@@ -1,11 +1,10 @@
 package cz.cvut.fel.pjv.view.ecsViewGUI;
 
-import cz.cvut.fel.pjv.jsPORT.Mover;
-import cz.cvut.fel.pjv.model.SimulationState;
+import cz.cvut.fel.pjv.model.ecsPrepearedObjects.Mover;
+import cz.cvut.fel.pjv.model.utils.SimulationState;
 import cz.cvut.fel.pjv.model.ecsSystems.N2mAtraction;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -14,6 +13,19 @@ import java.util.logging.Level;
 
 import static cz.cvut.fel.pjv.model.GLOBALS.log;
 
+/**
+ * Manages the UI components for simulation setup.
+ * <p>
+ * Uses Singleton pattern to ensure a single instance.
+ * <p>
+ * Interacts with:
+ * <ul>
+ *   <li>{@link cz.cvut.fel.pjv.view.frames.WindowFrame}</li>
+ *   <li>{@link cz.cvut.fel.pjv.model.ecsPrepearedObjects.Mover}</li>
+ *   <li>{@link cz.cvut.fel.pjv.model.utils.SimulationState}</li>
+ *   <li>{@link cz.cvut.fel.pjv.model.ecsSystems.N2mAtraction}</li>
+ * </ul>
+ */
 public class UiNewSim {
 
     private Pane parentPane;
@@ -21,7 +33,13 @@ public class UiNewSim {
 
     private WindowFrame windowFrame;
 
+    private VBox sunPropContainer = null;
+
     private static UiNewSim instance;
+    /**
+     * Private constructor to initialize the UI components.
+     * Uses {@link VBox} for layout and sets various styles.
+     */
     private UiNewSim() {
         sliderPane = new VBox();
 
@@ -32,7 +50,11 @@ public class UiNewSim {
         sliderPane.setStyle("-fx-background-color: #ffff; -fx-border-color: #16be78; -fx-border-width: 1px;");
 
     }
-
+    /**
+     * Singleton method to get the instance of {@link UiNewSim}.
+     *
+     * @return the single instance of {@link UiNewSim}.
+     */
     public static UiNewSim get(){
         if(UiNewSim.instance == null){
             UiNewSim.instance = new UiNewSim();
@@ -40,28 +62,32 @@ public class UiNewSim {
         return UiNewSim.instance;
     }
 
+    /**
+     * Sets the window frame and initializes the parent pane.
+     * Adds the slider pane to the parent pane and sets its dimensions.
+     *
+     * @param windowFrame the {@link WindowFrame} to be set.
+     */
     public void setWindow(WindowFrame windowFrame) {
         this.windowFrame = windowFrame;
         this.parentPane = windowFrame.getGuiLayoutPane();
         this.parentPane.getChildren().add(sliderPane);
 
-//
-//        controlWidth = windowFrame.getWidth(;
-//        controlHeight = windowFrame.getHeight();
-//        sliderPane.setMaxWidth(controlWidth);
-//        sliderPane.setMinWidth(controlWidth);
 
 
         sliderPane.setPrefHeight(parentPane.getPrefHeight());
         sliderPane.setPrefWidth(parentPane.getPrefWidth());
 
         showSimStartProperties();
-//        windowFrame.stopLoop();
-//        showCompControl
 
     }
 
-
+    /**
+     * Displays the properties input fields for the sun.
+     * Creates a {@link VBox} container with various {@link TextField} components for sun properties.
+     *
+     * @return the {@link VBox} container with sun properties input fields.
+     */
     public VBox showSunProp() {
         // Создание контейнера для свойств солнца
         VBox sunPropsContainer = new VBox(10); // Пространство между элементами
@@ -105,6 +131,13 @@ public class UiNewSim {
         return sunPropsContainer;
     }
 
+    /**
+     * Creates a {@link Mover} object for the sun and validates its properties.
+     * Extracts values from the provided {@link VBox} container and validates them.
+     *
+     * @param sunPropsContainer the {@link VBox} container with sun properties input fields.
+     * @return a {@link Mover} object representing the sun, or null if validation fails.
+     */
     private Mover createSunAndValidateProp(VBox sunPropsContainer){
         if(sunPropsContainer == null){
             System.out.println("Sun properties container is null");
@@ -136,7 +169,13 @@ public class UiNewSim {
             return null;
         }
     }
-    private VBox sunPropContainer = null;
+
+
+    /**
+     * Displays the simulation start properties and sets up event listeners.
+     * Adds input fields and buttons to the {@link VBox} sliderPane and sets up their event handlers.
+     */
+
     public void showSimStartProperties(){
         // Create text field for entering the number of movers
         TextField moverCountTextField = new TextField("1");

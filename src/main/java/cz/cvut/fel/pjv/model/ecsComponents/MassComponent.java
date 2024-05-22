@@ -5,6 +5,11 @@ import com.google.gson.annotations.Expose;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+/**
+ * Represents a mass {@link Component} in the ECS (Entity Component System) framework.
+ * <p>
+ * Contains a mass property.
+ */
 public class MassComponent extends Component {
     @Expose
     public DoubleProperty mass = new SimpleDoubleProperty();

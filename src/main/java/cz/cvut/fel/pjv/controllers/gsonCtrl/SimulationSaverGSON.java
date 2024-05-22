@@ -1,14 +1,16 @@
-package cz.cvut.fel.pjv.controller;
+package cz.cvut.fel.pjv.controllers.gsonCtrl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import cz.cvut.fel.pjv.jsPORT.Mover;
-import cz.cvut.fel.pjv.model.GLOBALS.*;
-import cz.cvut.fel.pjv.model.JsonAdapters.*;
-import cz.cvut.fel.pjv.model.SimulationState;
+import cz.cvut.fel.pjv.controllers.gsonCtrl.JsonAdapters.ColorCompAdapter;
+import cz.cvut.fel.pjv.controllers.gsonCtrl.JsonAdapters.MassCompAdapter;
+import cz.cvut.fel.pjv.controllers.gsonCtrl.JsonAdapters.Point2DExtAdapter;
+import cz.cvut.fel.pjv.model.ecsPrepearedObjects.Mover;
+import cz.cvut.fel.pjv.controllers.gsonCtrl.JsonAdapters.*;
+import cz.cvut.fel.pjv.model.utils.SimulationState;
 import cz.cvut.fel.pjv.model.ecsComponents.CompColor;
 import cz.cvut.fel.pjv.model.ecsComponents.MassComponent;
-import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt;
+import cz.cvut.fel.pjv.model.utils.Point2DExt;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -23,15 +25,33 @@ import java.util.stream.Stream;
 
 import static cz.cvut.fel.pjv.model.GLOBALS.log;
 
-
+/**
+ * Handles saving and loading of the simulation state using GSON.
+ * <p>
+ * Uses {@link Gson} for serialization and deserialization of {@link SimulationState}.
+ * Registers custom adapters for components like {@link CompColor}, {@link MassComponent}, and {@link Point2DExt}.
+ */
 public class SimulationSaverGSON {
 
     SimulationState currentState;
 
+    /**
+     * Sets the current simulation state to be saved.
+     *
+     * @param currentState the {@link SimulationState} to be set.
+     */
     public void setCurrentState(SimulationState currentState) {
         this.currentState = currentState;
     }
 
+    /**
+     * Saves the current simulation state to a JSON file in the specified directory.
+     * <p>
+     * Uses {@link GsonBuilder} to create a GSON instance with pretty printing and custom adapters.
+     * Generates a unique filename based on the current timestamp.
+     *
+     * @param dirPath the directory path where the JSON file will be saved.
+     */
     public void saveSimStateGSON(String dirPath){
 
 
@@ -42,7 +62,6 @@ public class SimulationSaverGSON {
                 .registerTypeAdapter(Point2DExt.class , new Point2DExtAdapter())
         .create();
 
-// Создание уникального имени файла на основе текущей даты и времени
         String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         //not actualy a dirPath now
         String filePath = dirPath + "/simulation_state_" + timestamp + ".json";
@@ -53,7 +72,16 @@ public class SimulationSaverGSON {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Loads the most recent simulation state from a JSON file in the specified directory.
+     * <p>
+     * Uses {@link GsonBuilder} to create a GSON instance with custom adapters.
+     * Searches for the latest JSON file in the directory and deserializes it into a {@link SimulationState}.
+     * Recreates the entities for each {@link Mover} in the loaded state.
+     *
+     * @param dirPath the directory path from where the JSON file will be loaded.
+     * @return the loaded {@link SimulationState}, or null if an error occurs.
+     */
     public SimulationState loadSimStateGSON(String dirPath) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(CompColor.class, new ColorCompAdapter())
@@ -65,7 +93,6 @@ public class SimulationSaverGSON {
         Path directory = Paths.get(dirPath);
         if (!Files.exists(directory)) {
             log("Directory does not exist: " + directory, Level.WARNING);
-//            System.err.println("Directory does not exist: " + directory);
             return null;
         }
 

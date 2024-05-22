@@ -1,10 +1,10 @@
 package cz.cvut.fel.pjv.view.ecsViewGUI;
 
 import at.fhooe.mtd.ecs.Entity;
-import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
+import cz.cvut.fel.pjv.controllers.SimpleAtraction;
 import cz.cvut.fel.pjv.model.GLOBALS;
 import cz.cvut.fel.pjv.model.ecsComponents.CompPosition;
-import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt;
+import cz.cvut.fel.pjv.model.utils.Point2DExt;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
@@ -13,8 +13,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import cz.cvut.fel.pjv.model.GLOBALS.*;
-
+/**
+ *
+ * @deprecated
+  @hidden
+ **/
 public class UserCtrlPositionComp extends EntityCompUI{
 
 

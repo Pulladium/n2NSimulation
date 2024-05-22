@@ -1,7 +1,7 @@
 package junitTests.componentTests;
 
 import cz.cvut.fel.pjv.model.ecsComponents.CompVelocity;
-import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt;
+import cz.cvut.fel.pjv.model.utils.Point2DExt;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

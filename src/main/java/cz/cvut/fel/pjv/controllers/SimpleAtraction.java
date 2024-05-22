@@ -1,64 +1,71 @@
-package cz.cvut.fel.pjv.jsPORT;
+package cz.cvut.fel.pjv.controllers;
 
 import at.fhooe.mtd.ecs.Engine;
-//import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
-import at.fhooe.mtd.ecs.Entity;
-import at.fhooe.mtd.ecs.EntityFamily;
-import cz.cvut.fel.pjv.controller.SimulationSaverGSON;
-import cz.cvut.fel.pjv.model.SimulationState;
-import cz.cvut.fel.pjv.model.ecsComponents.MoveableHandl;
+import cz.cvut.fel.pjv.controllers.gsonCtrl.SimulationSaverGSON;
+import cz.cvut.fel.pjv.model.ecsPrepearedObjects.Mover;
+import cz.cvut.fel.pjv.model.utils.SimulationState;
+import cz.cvut.fel.pjv.controllers.ecsHandlerComp.MoveableHandl;
 import cz.cvut.fel.pjv.model.ecsSystems.N2mAtraction;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.logging.Level;
 
-import static cz.cvut.fel.pjv.model.GLOBALS.log;
-import static cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt.random2D;
-import static cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt.rotate;
+import static cz.cvut.fel.pjv.model.GLOBALS.*;
 
+
+/**
+ * Manages the simple attraction simulation.
+ * <p>
+ * Handles the setup, saving, loading, and drawing of the simulation state.
+ * Interacts with {@link WindowFrame}, {@link Engine}, {@link SimulationState}, and {@link N2mAtraction}.
+ */
 public class SimpleAtraction {
 
 
-//    private final UserControl gui;
     private final WindowFrame window;
     private final Engine engine;
-
-//    N2mAtraction n2mAtraction;
-
     public SimulationState simulationState;
-//    private ArrayList<Mover> movers = new ArrayList<>();
-//    private  Mover sun;
-//    public ArrayList<Mover> getMovers() {
-//        return movers;
-//    }
 
+    /**
+     * Constructs a new {@link SimpleAtraction} with the specified window and engine.
+     *
+     * @param window the {@link WindowFrame} to be used.
+     * @param engine the {@link Engine} to be used.
+     */
     public SimpleAtraction( WindowFrame window, Engine engine) {
-//        this.gui = gui;
         this.window = window;
         this.engine = engine;
         setup();
     }
+    /**
+     * Sets up the initial {@link #simulationState} with movers and adds the attraction system to the engine.
+     */
+    private void setup() {
+        simulationState = new SimulationState();
 
+        simulationState.createNwithoutAtractor(100);
+        N2mAtraction n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
+        engine.addSystem(n2mAtraction);
+    }
 
+    /**
+     * Saves the current {@link #simulationState} using {@link SimulationSaverGSON}.
+     */
     public void saveSimState(){
-        //game will be paused
-        System.out.println("Saving sim state");
 
         SimulationSaverGSON simulationSaverGSON = new SimulationSaverGSON();
         simulationSaverGSON.setCurrentState(simulationState);
         simulationSaverGSON.saveSimStateGSON("src/main/resources/saves/");
 
     }
-
+    /**
+     * Loads the simulation state using {@link SimulationSaverGSON} and updates the engine.
+     */
     public void loadSimState(){
-        //game will be paused
-        System.out.println("Loading sim state");
+
 
         SimulationSaverGSON simulationSaverGSON = new SimulationSaverGSON();
         simulationState = simulationSaverGSON.loadSimStateGSON("src/main/resources/saves/");
@@ -86,35 +93,35 @@ public class SimpleAtraction {
 
 
     }
+    /**
+     * Selects a mover based on the given point.
+     *
+     * @param point the {@link Point2D} to check for a mover.
+     * @return the selected {@link Mover}, or null if no mover is found.
+     */
     public Mover selectMover(Point2D point){
-//        point = new Point2D(point.getX() - (double) window.getWidth() /2 - window.offsetX, point.getY() - (double) window.getHeight() /2 - window.offsetY);
-        for (Mover mover : simulationState.getMovers()) {
-//            System.out.println("Mover: " + mover.getPosComp().position.toString() + " point: " + point.toString());
-            if(point.getX() <=  mover.getPosComp().position.getX() + mover.size.size  &&
-                    point.getX() >=  mover.getPosComp().position.getX() - mover.size.size &&
-                    point.getY() <=  mover.getPosComp().position.getY() + mover.size.size &&
-                    point.getY() >=  mover.getPosComp().position.getY() - mover.size.size){
+       for (Mover mover : simulationState.getMovers()) {
+
+          if(point.getX() <=  mover.getPosComp().position.getX() + mover.getSize().size  &&
+                    point.getX() >=  mover.getPosComp().position.getX() - mover.getSize().size &&
+                    point.getY() <=  mover.getPosComp().position.getY() + mover.getSize().size &&
+                    point.getY() >=  mover.getPosComp().position.getY() - mover.getSize().size){
                 return mover;
             }
         }
         return null;
     }
 
-    public SimulationState getSimulationState() {
-        return simulationState;
-    }
 
-    private void setup() {
-        simulationState = new SimulationState();
-//        simulationState.createDefaultState();
-
-//        simulationState.createNwithoutAtractor(50);
-
-//        simulationState.createDefaultState();
-        simulationState.createNwithoutAtractor(3);
-        N2mAtraction n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
-        engine.addSystem(n2mAtraction);
-    }
+  /**
+           * Draws the current {@link #simulationState} on the given {@link GraphicsContext}.
+            * <p>
+     * Clears the canvas, sets the background color, and translates and scales the canvas.
+     * Iterates through all movers and updates their positions using {@link MoveableHandl}.
+            * If the sun is present, it is also drawn.
+            *
+            * @param gc the {@link GraphicsContext} to draw on.
+     */
     public void draw(GraphicsContext gc) {
         double WIDTH = gc.getCanvas().getWidth();
         double HEIGHT = gc.getCanvas().getHeight();
@@ -124,11 +131,7 @@ public class SimpleAtraction {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, WIDTH, HEIGHT);
 
-//ODO To engine UPS
 
-        //ODO To engine finish
-
-        //TODO ToCanvasRenderer FPS
         gc.save();
         gc.translate(WIDTH / 2 + window.offsetX, HEIGHT / 2 + window.offsetY);
 
@@ -145,9 +148,17 @@ public class SimpleAtraction {
             simulationState.getSun().currentEntity.getComponent(MoveableHandl.class).show(gc);
         }
         gc.restore();
-//        sun.show(gc, WIDTH / 2, HEIGHT / 2);
     }
-
+    /**
+     * Redraws the current {@link  #simulationState} on the given {@link GraphicsContext}.
+     * <p>
+     * Similar to {@link #draw(GraphicsContext)}, but does not update the positions of movers.
+     * Clears the canvas, sets the background color, and translates and scales the canvas.
+     * Iterates through all movers and draws them using {@link MoveableHandl}.
+     * If the sun is present, it is also drawn.
+     *
+     * @param gc the {@link GraphicsContext} to redraw on.
+     */
     public void redraw(GraphicsContext gc) {
         double WIDTH = gc.getCanvas().getWidth();
         double HEIGHT = gc.getCanvas().getHeight();
@@ -155,27 +166,17 @@ public class SimpleAtraction {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, WIDTH, HEIGHT);
 
-//ODO To engine UPS
 
-        //ODO To engine finish
-
-        //TODO ToCanvasRenderer FPS
         gc.save();
         gc.translate(WIDTH / 2 + window.offsetX, HEIGHT / 2 + window.offsetY);
 
         gc.scale(window.getCanvasScale() , window.getCanvasScale() );
-//
-//        EntityFamily family =
-//        for (Entity mover : engine.getEntities()) {
-//            //changePos
-//            MoveableHandl moveableHandl = mover.getComponent(MoveableHandl.class);
-//            moveableHandl.update();
-//            moveableHandl.show(gc);
+
 //        }
         for (Mover mover : simulationState.getMovers()) {
             //changePos
             MoveableHandl moveableHandl = mover.currentEntity.getComponent(MoveableHandl.class);
-//            moveableHandl.update();
+
             moveableHandl.show(gc);
         }
 
@@ -183,7 +184,11 @@ public class SimpleAtraction {
             simulationState.getSun().currentEntity.getComponent(MoveableHandl.class).show(gc);
         }
         gc.restore();
-//        sun.show(gc, WIDTH / 2, HEIGHT / 2);
+    }
+
+
+    public SimulationState getSimulationState() {
+        return simulationState;
     }
 
 

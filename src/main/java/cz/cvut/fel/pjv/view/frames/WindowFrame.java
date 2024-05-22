@@ -1,12 +1,10 @@
 package cz.cvut.fel.pjv.view.frames;
 
 import at.fhooe.mtd.ecs.Engine;
-//import cz.cvut.fel.pjv.controller.canvasRender.CanvasRenderer;
-import cz.cvut.fel.pjv.jsPORT.Mover;
-import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
+import cz.cvut.fel.pjv.model.ecsPrepearedObjects.Mover;
+import cz.cvut.fel.pjv.controllers.SimpleAtraction;
 import cz.cvut.fel.pjv.model.GLOBALS;
 import cz.cvut.fel.pjv.view.ecsViewGUI.UiNewSim;
-import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import cz.cvut.fel.pjv.view.frames.CanvasFrame;
 
 
 import java.util.concurrent.Executors;
@@ -28,7 +25,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import static cz.cvut.fel.pjv.model.GLOBALS.*;
-
+/**
+ * Singleton class for the main window frame.
+ * contains javafx {@link Parent}'s and view logic
+ * contains animation loop and simulation thread
+ */
 public class WindowFrame {
 
     private int width, height;
@@ -101,7 +102,7 @@ public class WindowFrame {
  *          {@link Pane} {@link #guiLayoutPane} {@link #createGUI()} <br>
  *          {@link AnchorPane} {@link #appAncorPane} contains:
      *          <p>&#9;&#123;</p>
-     *      {@link CanvasFrame} {@link #gameLayoutCanvas}
+     *      {@link Canvas} {@link #gameLayoutCanvas}
      *      <p> &#9; &#125;</p>
      *      <p>&#125;</p>
      *
@@ -113,7 +114,7 @@ public class WindowFrame {
 
 
 
-        gameLayoutCanvas = new CanvasFrame(width, height);
+        gameLayoutCanvas = new Canvas(width, height);
 
 
 

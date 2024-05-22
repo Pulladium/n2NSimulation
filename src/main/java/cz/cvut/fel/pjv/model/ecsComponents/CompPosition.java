@@ -2,9 +2,14 @@ package cz.cvut.fel.pjv.model.ecsComponents;
 
 import at.fhooe.mtd.ecs.Component;
 import com.google.gson.annotations.Expose;
-import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt;
+import cz.cvut.fel.pjv.model.utils.Point2DExt;
 import javafx.geometry.Point2D;
 
+/**
+ * Represents a position {@link Component} in the ECS (Entity Component System) framework.
+ * <p>
+ * Contains a position property.
+ */
 public class CompPosition extends Component {
     @Expose
     public Point2DExt position;

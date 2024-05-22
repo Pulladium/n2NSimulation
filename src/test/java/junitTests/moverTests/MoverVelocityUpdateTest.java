@@ -1,6 +1,6 @@
 package junitTests.moverTests;
-import cz.cvut.fel.pjv.jsPORT.Mover;
-import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt;
+import cz.cvut.fel.pjv.model.ecsPrepearedObjects.Mover;
+import cz.cvut.fel.pjv.model.utils.Point2DExt;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

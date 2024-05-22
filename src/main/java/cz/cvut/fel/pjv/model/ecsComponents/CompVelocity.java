@@ -2,9 +2,14 @@ package cz.cvut.fel.pjv.model.ecsComponents;
 
 import at.fhooe.mtd.ecs.Component;
 import com.google.gson.annotations.Expose;
-import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt;
+import cz.cvut.fel.pjv.model.utils.Point2DExt;
 import javafx.geometry.Point2D;
 
+/**
+ * Represents a velocity {@link Component} in the ECS (Entity Component System) framework.
+ * <p>
+ * Contains a velocity property.
+ */
 public class CompVelocity  extends Component {
     @Expose
     Point2DExt velocity;

@@ -6,6 +6,11 @@ import javafx.scene.layout.VBox;
 
 import java.util.Dictionary;
 
+/**
+ *
+ * @deprecated
+ *   @hidden
+ **/
 public abstract class  EntityCompUI {
     //velocity
 

@@ -1,12 +1,11 @@
 import at.fhooe.mtd.ecs.Engine;
-import cz.cvut.fel.pjv.jsPORT.Mover;
-import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
-import cz.cvut.fel.pjv.model.SimulationState;
-import cz.cvut.fel.pjv.model.ecsComponents.myUtils.Point2DExt;
+import cz.cvut.fel.pjv.model.ecsPrepearedObjects.Mover;
+import cz.cvut.fel.pjv.controllers.SimpleAtraction;
+import cz.cvut.fel.pjv.model.utils.SimulationState;
+import cz.cvut.fel.pjv.model.utils.Point2DExt;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

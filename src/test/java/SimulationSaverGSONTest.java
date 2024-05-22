@@ -1,6 +1,6 @@
-import cz.cvut.fel.pjv.controller.SimulationSaverGSON;
-import cz.cvut.fel.pjv.jsPORT.Mover;
-import cz.cvut.fel.pjv.model.SimulationState;
+import cz.cvut.fel.pjv.controllers.gsonCtrl.SimulationSaverGSON;
+import cz.cvut.fel.pjv.model.ecsPrepearedObjects.Mover;
+import cz.cvut.fel.pjv.model.utils.SimulationState;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

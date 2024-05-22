@@ -4,6 +4,12 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
+/**
+ * Class for the canvas frame
+ * @hidden
+ @deprecated
+
+ */
 public class CanvasFrame extends Canvas {
 
     private double screenX = 0;

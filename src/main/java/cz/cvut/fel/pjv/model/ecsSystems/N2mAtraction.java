@@ -1,10 +1,8 @@
 package cz.cvut.fel.pjv.model.ecsSystems;
 
 import at.fhooe.mtd.ecs.EngineSystem;
-import cz.cvut.fel.pjv.jsPORT.Mover;
-import cz.cvut.fel.pjv.model.ecsComponents.MoveableHandl;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import cz.cvut.fel.pjv.model.ecsPrepearedObjects.Mover;
+import cz.cvut.fel.pjv.controllers.ecsHandlerComp.MoveableHandl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +13,14 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 
 import static cz.cvut.fel.pjv.model.GLOBALS.log;
-
+/**
+ * Manages the N-body attraction simulation system.
+ * <p>
+ * Extends {@link EngineSystem} @see <a href="https://github.com/divotkey/ecs/tree/master/Entity%20Component%20System/src/at/fhooe/mtd/ecs">ECS</a>
+ * <br>
+ * and handles the movement and attraction of {@link Mover} objects.
+ * Uses multithreading to update the positions of movers efficiently.
+ */
 public class N2mAtraction extends EngineSystem {
 
 
@@ -23,42 +28,50 @@ public class N2mAtraction extends EngineSystem {
     private Mover sun;
 
 
-    //with atractor in the middle
+    /**
+     * Constructs the system with movers and a central attractor (sun).
+     *
+     * @param movers the list of {@link Mover} objects.
+     * @param sun the central attractor {@link Mover} object.
+     */
     public N2mAtraction(ArrayList<Mover> movers, Mover sun) {
         this.movers = movers;
         this.sun = sun;
     }
 
-    //without atractor in the middle
+    /**
+     * Constructs the system with movers without a central attractor.
+     *
+     * @param movers the list of {@link Mover} objects.
+     */
     public N2mAtraction(ArrayList<Mover> movers) {
         this.movers = movers;
     }
 
-    public void setMovers(ArrayList<Mover> movers, Mover sun) {
-        this.movers = movers;
-        this.sun = sun;
-    }
 
+/**
+     * Updates the simulation state by moving and attracting movers.
+     * <p>
+     * This method overrides the {@link EngineSystem#update(double)} method.
+     * Uses {@link ExecutorService} to perform calculations in parallel.
+     * Logs the movement of each {@link Mover} using {@link cz.cvut.fel.pjv.model.GLOBALS#log}.
+            *
+            * @param dT the time delta for the update.
+            */
     @Override
     public void update(double dT) {
 
-        // Создаем ExecutorService с фиксированным пулом потоков, размер которого равен количеству доступных процессоров
+
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         List<Future<Void>> futures = new ArrayList<>();
 
 
         for (Mover mover : movers) {
 
-            // Создаем задачу, которая будет выполняться в отдельном потоке
             Callable<Void> task = new Callable<Void>() {
 
                 @Override
                 public Void call() {
-/*
-                    System.out.println("Thread: " + Thread.currentThread().getName()
-                            + "thread id: " + Thread.currentThread().getId() +
-                            "Mover_pos: " + mover.getPosComp().toString() + " is moving"  );
-                  */
                     log("Thread: " + Thread.currentThread().getName()
                             + "thread id: " + Thread.currentThread().getId() +
                             "Mover_pos: " + mover.getPosComp().toString() + " is moving", Level.OFF);
@@ -79,8 +92,6 @@ public class N2mAtraction extends EngineSystem {
                     return null;
                 }
             };
-
-            // Добавляем задачу в список задач, которые будут выполнены в потоках
             futures.add(executor.submit(task));
         }
 
@@ -91,14 +102,15 @@ public class N2mAtraction extends EngineSystem {
                 future.get();
             } catch (Exception e) {
                 log("actualy an error" + e, Level.WARNING );
-//                System.out.println("Not actualy an error" + e);
-//                e.printStackTrace();
+
             }
         }
 
-        // Завершаем работу ExecutorService
         executor.shutdown();
-        //новый цикл update
     }
 
+    public void setMovers(ArrayList<Mover> movers, Mover sun) {
+        this.movers = movers;
+        this.sun = sun;
+    }
 }
