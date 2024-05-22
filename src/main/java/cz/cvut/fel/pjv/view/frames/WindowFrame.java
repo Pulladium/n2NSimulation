@@ -4,6 +4,7 @@ import at.fhooe.mtd.ecs.Engine;
 //import cz.cvut.fel.pjv.controller.canvasRender.CanvasRenderer;
 import cz.cvut.fel.pjv.jsPORT.Mover;
 import cz.cvut.fel.pjv.jsPORT.SimpleAtraction;
+import cz.cvut.fel.pjv.model.GLOBALS;
 import cz.cvut.fel.pjv.view.ecsViewGUI.UiNewSim;
 import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
 import javafx.animation.AnimationTimer;
@@ -18,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import cz.cvut.fel.pjv.view.frames.CanvasFrame;
 
 
 import java.util.concurrent.Executors;
@@ -35,10 +37,6 @@ public class WindowFrame {
 
     public int offsetX, offsetY = 0;
 
-
-    //currentScene --> appAncorPane
-    //appAncorPane --> gameLayoutCanvas
-    //appAncorPane --> GuiLayoutPane
     Scene currentScene;
 
     HBox appHBox;
@@ -52,8 +50,6 @@ public class WindowFrame {
     private Engine engine;
 
     UiNewSim uiNewSim = UiNewSim.get();
-//    UserControl userControl = UserControl.get();
-
 
     private ScheduledExecutorService simulationExecutor;
 
@@ -64,10 +60,11 @@ public class WindowFrame {
 
     private SimpleAtraction simpleAtraction;
 
-
-
     private static WindowFrame instance;
 
+    /**
+     * Private constructor for the WindowFrame singleton.
+     */
     private WindowFrame() {
         this.width = 1200;
         this.height = 1000;
@@ -75,21 +72,17 @@ public class WindowFrame {
 
     }
 
+    /**
+     * Creates the GUI layout pane.
+     *
+     * @return The parent node of the GUI layout pane.
+     */
     private Parent createGUI(){
         guiLayoutPane = new Pane();
 
         guiLayoutPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, null)));
         guiLayoutPane.setViewOrder(0.0);
 
-//        AnchorPane.setTopAnchor(guiLayoutPane, 0.0);
-////        AnchorPane.setLeftAnchor(guiLayoutPane, 0.0);
-//        AnchorPane.setBottomAnchor(guiLayoutPane, 0.0);
-//        AnchorPane.setRightAnchor(guiLayoutPane, 0.0);
-//        guiLayoutPane.setPrefWidth(100);
-//        guiLayoutPane.setPrefWidth(100);
-
-
-        System.out.println("GuiLayoutPane create width: " + guiLayoutPane.getWidth());
 
 
 //        userControl.setWindow(this);
@@ -98,6 +91,24 @@ public class WindowFrame {
         return null;
     }
 
+    /**
+     * Creates the content of the window.
+     *
+     *
+     *
+ *          {@link HBox} {@link #appHBox} contains: <br>
+     *      <p>&#123;</p>
+ *          {@link Pane} {@link #guiLayoutPane} {@link #createGUI()} <br>
+ *          {@link AnchorPane} {@link #appAncorPane} contains:
+     *          <p>&#9;&#123;</p>
+     *      {@link CanvasFrame} {@link #gameLayoutCanvas}
+     *      <p> &#9; &#125;</p>
+     *      <p>&#125;</p>
+     *
+     *
+     *
+     * @return The parent node of the window.
+     */
     private Parent createContent() {
 
 
@@ -105,16 +116,17 @@ public class WindowFrame {
         gameLayoutCanvas = new CanvasFrame(width, height);
 
 
-//        gameLayoutPane.autosize();
+
         GraphicsContext gc = gameLayoutCanvas.getGraphicsContext2D();
 
-//        gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, gameLayoutCanvas.getWidth(), gameLayoutCanvas.getHeight()); // Заливаем весь Canvas черным цветом
+
 
         gc.save();
         gc.scale(canvasScale, canvasScale); // Масштабирование Canvas
         gc.restore();
-//        gameLayoutPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, null)));
+
+
         gameLayoutCanvas.setViewOrder(2.0);
 
         // Make the Canvas focusable
@@ -122,7 +134,7 @@ public class WindowFrame {
 
 
         appAncorPane = new AnchorPane();
-//        appAncorPane.autosize();
+
         appAncorPane.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, null)));
         appAncorPane.getChildren().add(gameLayoutCanvas);
 //
@@ -230,12 +242,11 @@ public class WindowFrame {
         return WindowFrame.instance;
     }
     /**
-     * Runs the application window.
+     * Runs the application window. Sets the scene and shows the stage.
      *
      * @param stage The primary stage for this application.
      */
     public void run(Stage stage){
-//        System.out.println("Running window: " + this.title + " with width: " + this.width + " and height: " + this.height);
 
         log("Running window: " + this.title + " with width: " + this.width + " and height: " + this.height, Level.INFO);
         init();
@@ -244,7 +255,6 @@ public class WindowFrame {
         stage.setTitle(title);
         stage.show();
 
-//        loop(engine);
     }
 
     /**
@@ -266,15 +276,11 @@ public class WindowFrame {
     /**
      * Starts the main loop of the application.
      *
-     * @param engine The engine to be used in the loop.
-     * @param simpleAtraction The SimpleAtraction instance to be used in the loop.
+     * @param engine The engine to be used in the simulation thread loop. {@link #createSimThread(Engine)}
+     * @param simpleAtraction The SimpleAtraction instance to be used in JavaFx animation loop. {@link #createGameLoop(SimpleAtraction)}
      */
     public void loop(Engine engine, SimpleAtraction simpleAtraction){
-//        System.out.println("Canvas renderer created");
-//        CanvasRenderer canvasRenderer = new CanvasRenderer((CanvasFrame) gameLayoutCanvas, engine);
-
         this.simpleAtraction = simpleAtraction;
-
         if ( gameLoopAnim == null){
             createSimThread(engine);
             createGameLoop( simpleAtraction);
@@ -283,8 +289,6 @@ public class WindowFrame {
 
 
         gameLoopAnim.start();
-        // Главный цикл анимации
-//        System.out.println("Looping window");
 
         log("Looping window", Level.INFO);
     }
@@ -297,28 +301,25 @@ public class WindowFrame {
 
     /**
      * Pauses the application.
+     * @implNote Changes volatile running variable to false, which controls model update.
+     * @implNote Pauses the animation loop .
+     * @implNote Shows the GUI layout pane.
      */
     public void pause() {
         gameLoopAnim.stop();
         running = false;
-
-
-        //wait until Sim thread fully
-//        simShutdown();
         guiLayoutPane.setVisible(true);
-
         appAncorPane.setMinWidth(appHBox.getWidth() - 200);
         appAncorPane.setMaxWidth(appHBox.getWidth() - 200);
         guiLayoutPane.setPrefWidth(200);
 
-        System.out.println("GuiLayoutPane width: " + guiLayoutPane.getWidth());
-
-
-//                guiLayoutPane.setVisible(true);
     }
 
     /**
      * Resumes the application.
+     * @implNote Changes volatile running variable to true, which controls model update.
+     * @implNote Hides the GUI layout pane.
+     * @implNote Starts javaFX animation loop .
      */
     public void resume() {
         running = true;
@@ -331,7 +332,7 @@ public class WindowFrame {
     }
 
     /**
-     * Checks if the application is running.
+     * Checks if the application is volatile {@link #running}.
      *
      * @return True if the application is running, false otherwise.
      */
@@ -339,12 +340,16 @@ public class WindowFrame {
         return running;
     }
 
-    // Частота redraw
+    /**
+     * Creates the JavaFx animation loop for the application.
+     *
+     * @param simpleAtraction The {@link SimpleAtraction} instance to be redrawn in the loop.
+     */
     private void createGameLoop( SimpleAtraction simpleAtraction){
 
 
         gameLoopAnim = new AnimationTimer() {
-            private long lastUpdate = 0; // Время последнего обновления
+            private long lastUpdate = 0;
 
             @Override
             public void handle(long now) {
@@ -357,27 +362,24 @@ public class WindowFrame {
                     simpleAtraction.draw((GraphicsContext) gameLayoutCanvas.getGraphicsContext2D());
                     lastUpdate = now;
                 }
-//                double deltaTime = (now - lastUpdate) / 1_000_000_00.0; // Время в секундах между текущим и последним кадрами
-
-                //ОБРАЩЕНИЕ К MODEL
-//                engine.update(deltaTime); // Обновление с учетом реального времени между кадрами
-//                lastUpdate = now; // Сохранение времени этого обновления для следующего кадра
-
-
-//                canvasRenderer.render();
             }
         };
     }
 
 
+    /**
+     * Adds a mouse click listener to the canvas.
+     *
+     * @param engine The engine to catch Entities, add and remove Entity from engine.
+*      @implNote was needed to individual param setting for each mover
+     */
     private void addCanvasListner(Engine engine){
         gameLayoutCanvas.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-//            System.out.println("Sun pos: " + simpleAtraction.simulationState.getSun().getPosComp().position.toString());
-//            System.out.println("Mouse Clicked at: " + event.getX() + ", " + event.getY());
-//            System.out.println("Canvas width: " + gameLayoutCanvas.getWidth() + " height: " + gameLayoutCanvas.getHeight());
+
             log("Canvas width: " + gameLayoutCanvas.getWidth() + " height: " + gameLayoutCanvas.getHeight(), Level.INFO);
             log("Mouse Clicked at: " + event.getX() + ", " + event.getY(), Level.INFO);
-//            System.out.println("Mouse Clicked at: " + (event.getX() - windowFrame.gameLayoutCanvas.getWidth()/2) + ", " + (event.getY() - windowFrame.gameLayoutCanvas.getHeight() /2));
+
+
             // Запрашиваем фокус для Canvas при клике
             gameLayoutCanvas.requestFocus();
             if(!running && simpleAtraction != null){
@@ -424,7 +426,14 @@ public class WindowFrame {
         });
     }
 
-    /// Частота обновления симуляции
+    /**
+     * Creates a simulation thread {@link #simulationExecutor} in purpose to update the engine.
+     * @implNote adds a listener to the canvas {@link #addCanvasListner(Engine)}.
+     *
+     * @param engine The engine which will be updated in the thread.
+ *    Uses {@link GLOBALS#SIMULATION_UPDATE_RATE} to set the rate of the simulation.
+     *                   
+     *    */
     private void createSimThread(Engine engine){
 
 
@@ -443,6 +452,10 @@ public class WindowFrame {
 
     }
 
+    /**
+     * Shuts down the simulation thread.
+     * @implNote {@link #simulationExecutor}
+     */
     public void simShutdown(){
         if (simulationExecutor != null && !simulationExecutor.isShutdown()) {
             simulationExecutor.shutdown();

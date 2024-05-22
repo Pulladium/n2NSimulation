@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 //Itegracni test2
+
 public class SimpleAtractionSelectMoverTest {
 
     private SimpleAtraction simpleAtraction;

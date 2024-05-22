@@ -66,10 +66,10 @@ public class SimCreationIntegrationTest {
         assertEquals(numBodies, simulationState.getMovers().size());
 
 //        // Step 7: Start new simulation
-//        doNothing().when(windowFrame).loop(any(Engine.class), eq(simpleAtraction));
-//        windowFrame.loop(new Engine(), simpleAtraction);
-//        when(windowFrame.isRunning()).thenReturn(true);
-//        assertTrue(windowFrame.isRunning());
+        doNothing().when(windowFrame).loop(any(Engine.class), eq(simpleAtraction));
+        windowFrame.loop(new Engine(), simpleAtraction);
+        when(windowFrame.isRunning()).thenReturn(true);
+        assertTrue(windowFrame.isRunning());
 
         // Step 8: Verify simulation is running and sun is present
         assertNotNull(simulationState.getSun());
