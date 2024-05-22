@@ -191,7 +191,17 @@ public class SimpleAtraction {
         return simulationState;
     }
 
-
-
-
+    public void setSimulationState(SimulationState simulationState) {
+        engine.removeAll();//only entities
+        int sysCnt = engine.getNumOfSystems();
+        for (int i = 0; i < sysCnt; i++) {
+            engine.removeSystem(engine.getSystem(0));
+        }
+        this.simulationState = simulationState;
+        for (Mover mover : simulationState.getMovers()) {
+            engine.addEntity(mover.currentEntity);
+        }
+        N2mAtraction n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
+        engine.addSystem(n2mAtraction);
+    }
 }

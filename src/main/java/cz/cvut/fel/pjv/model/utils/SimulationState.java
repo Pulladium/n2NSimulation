@@ -6,6 +6,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static cz.cvut.fel.pjv.model.utils.Point2DExt.random2D;
@@ -135,6 +136,10 @@ public class SimulationState {
             movers.add(new Mover(pos.getX(), pos.getY(), vel.getX(), vel.getY(), m, size, randomColor()));
         }
         this.sun = sun;
+    }
+
+    public void setNs(List<Mover> movers) {
+        this.movers = (ArrayList<Mover>) movers;
     }
 
     public ArrayList<Mover> getMovers() {

@@ -89,6 +89,7 @@ public class N2mAtraction extends EngineSystem {
                             moveableHandl.attract(otherMoveableHandl.getEntity());
                         }
                     }
+
                     return null;
                 }
             };
