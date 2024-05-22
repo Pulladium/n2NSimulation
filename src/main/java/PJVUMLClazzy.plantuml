@@ -1,0 +1,227 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class CanvasFrame {
+  + CanvasFrame(double, double): 
+  + clear(): void
+  + worldToScreen(double, double): Vector2D
+  + updateViewPosition(double, double): void
+}
+class CanvasRenderer {
+  + CanvasRenderer(CanvasFrame, Engine): 
+  + render(): void
+  + drawRotatedImage(GraphicsContext, Image, double, double, double): void
+}
+class Component {
+  + Component(): 
+  - entity: Entity
+  - activated: boolean
+  ~ activateInternal(): void
+  # deactivate(): void
+  # getComponent(Class<T>): T
+  # activate(): void
+  # getSystem(Class<T>): T
+  ~ deactivateInternal(): void
+   engine: Engine
+   entity: Entity
+   activated: boolean
+}
+class Engine {
+  + Engine(): 
+  - removeAllInternal(): void
+  + getEntities(EntityFamily): List<Entity>
+  - initView(EntityFamily, List<Entity>): void
+  + addEntityListener(EntityListener): void
+  + removeAll(): void
+  + dispose(): void
+  - removeEntityFromViews(Entity): void
+  + addEntityListener(EntityListener, EntityFamily): void
+  + removeEntityListener(EntityListener): void
+  + getSystem(Class<T>): T
+  - addEntityToViews(Entity): void
+  + update(double): void
+  + addEntity(Entity): void
+  + hasSystem(Class<?>): boolean
+  + getSystem(int): EngineSystem
+  + removeEntity(Entity): void
+  - removeEntityInternal(Entity): void
+  + removeSystem(EngineSystem): void
+  + addSystem(EngineSystem): void
+  - addEntityInternal(Entity): void
+  + removeEntityListener(EntityListener, EntityFamily): void
+   numOfSystems: int
+   numOfEntities: int
+}
+class EngineSystem {
+  + EngineSystem(): 
+  - enabled: boolean
+  - engine: Engine
+  + removedFromEngine(Engine): void
+  + update(double): void
+  + addedToEngine(Engine): void
+  # enabledStateChanged(): void
+   engine: Engine
+   enabled: boolean
+}
+class Entity {
+  + Entity(): 
+  - activated: boolean
+  - engine: Engine
+  + getAllComponents(Class<T>): List<T>
+  + addComponent(Component): void
+  + hasComponent(Class<?>): boolean
+  ~ activate(): void
+  + getComponent(Class<T>): T
+  ~ deactivate(): void
+   engine: Engine
+   activated: boolean
+}
+class EntityCompUI {
+  + EntityCompUI(String): 
+  + buildUI(): void
+}
+class EntityFamily {
+  - EntityFamily(): 
+  + isMember(Entity): boolean
+  + hashCode(): int
+  + equals(Object): boolean
+  + create(Class<?>[]): EntityFamily
+}
+class IteratingSystem {
+  + IteratingSystem(EntityFamily): 
+  - entities: List<Entity>
+  # processEntity(Entity, double): void
+  + addedToEngine(Engine): void
+  + update(double): void
+  + removedFromEngine(Engine): void
+   entities: List<Entity>
+}
+class Main {
+  + Main(): 
+  + start(Stage): void
+  + main(String[]): void
+}
+class MassComponent {
+  + MassComponent(double): 
+  + toString(): String
+}
+class PositionComponent {
+  + PositionComponent(double, double): 
+  + toString(): String
+}
+class RK4System {
+  + RK4System(): 
+  + calculateAcceleration(Entity, List<Entity>, Vector2D, Vector2D): Vector2D
+  + CelestrialBodyRK4(Entity, List<Entity>, double): void
+  + update(double): void
+}
+class SelestrialBody {
+  + SelestrialBody(): 
+  + toString(): String
+   entity: Entity
+}
+class Simulation2planet {
+  + Simulation2planet(Engine, WindowFrame, UserControl): 
+  + runRK4(): void
+}
+class SimulationNplanet {
+  + SimulationNplanet(UserControl, WindowFrame, Engine): 
+  + runRK4(): void
+}
+class TwoBodyProblemSystem {
+  + TwoBodyProblemSystem(): 
+  + update(double): void
+}
+class UserControl {
+  - UserControl(): 
+  + showCompControl(Entity): void
+  + get(): UserControl
+   window: WindowFrame
+}
+class UserCtrlPositionComp {
+  + UserCtrlPositionComp(String, PositionComponent, Pane): 
+  + buildUI(): void
+}
+class UserCtrlVelocityComp {
+  + UserCtrlVelocityComp(String, VelocityComponent, Pane): 
+  + buildUI(): void
+}
+class Vector2D {
+  + Vector2D(double, double): 
+  + Vector2D(): 
+  + add(Vector2D): Vector2D
+  + toString(): String
+  + normalize(): Vector2D
+  + subtract(Vector2D): Vector2D
+  + multiply(double): Vector2D
+  + xProperty(): DoubleProperty
+  + yProperty(): DoubleProperty
+  + magnitude(): double
+}
+class VelocityComponent {
+  + VelocityComponent(double, double): 
+  - velocity: Vector2D
+  + setVelocity(double, double): void
+  + toString(): String
+   velocity: Vector2D
+}
+class WindowFrame {
+  - WindowFrame(): 
+  - width: int
+  ~ gameLayoutCanvas: Canvas
+  - height: int
+  - createContent(): Parent
+  + loop(Engine): void
+  + run(Stage): void
+  - createGameLoop(Engine, CanvasRenderer): void
+  - init(): void
+  + stopLoop(): void
+  + get(): WindowFrame
+   appPane: AnchorPane
+   height: int
+   gameLayoutCanvas: Canvas
+   width: int
+}
+
+CanvasRenderer       "1" *-[#595959,plain]-> "canvasFrame\n1" CanvasFrame          
+CanvasRenderer       "1" *-[#595959,plain]-> "engine\n1" Engine               
+CanvasRenderer       "1" *-[#595959,plain]-> "movableEntitiesFamily\n1" EntityFamily         
+Component            "1" *-[#595959,plain]-> "entity\n1" Entity               
+Engine               "1" *-[#595959,plain]-> "systems\n*" EngineSystem         
+Engine               "1" *-[#595959,plain]-> "entities\n*" Entity               
+Engine               "1" *-[#595959,plain]-> "views\n*" EntityFamily         
+EngineSystem         "1" *-[#595959,plain]-> "engine\n1" Engine               
+Entity               "1" *-[#595959,plain]-> "components\n*" Component            
+Entity               "1" *-[#595959,plain]-> "engine\n1" Engine               
+IteratingSystem       -[#000082,plain]-^  EngineSystem         
+IteratingSystem      "1" *-[#595959,plain]-> "entities\n*" Entity               
+IteratingSystem      "1" *-[#595959,plain]-> "family\n1" EntityFamily         
+Main                 "1" *-[#595959,plain]-> "engine\n1" Engine               
+Main                 "1" *-[#595959,plain]-> "ui\n1" UserControl          
+Main                 "1" *-[#595959,plain]-> "windowFrame\n1" WindowFrame          
+MassComponent         -[#000082,plain]-^  Component            
+PositionComponent     -[#000082,plain]-^  Component            
+PositionComponent    "1" *-[#595959,plain]-> "vector2D\n1" Vector2D             
+RK4System             -[#000082,plain]-^  EngineSystem         
+RK4System            "1" *-[#595959,plain]-> "movableEntitiesFamily\n1" EntityFamily         
+RK4System            "1" *-[#595959,plain]-> "window\n1" WindowFrame          
+SelestrialBody       "1" *-[#595959,plain]-> "currentEntity\n1" Entity               
+Simulation2planet    "1" *-[#595959,plain]-> "engine\n1" Engine               
+Simulation2planet    "1" *-[#595959,plain]-> "gui\n1" UserControl          
+Simulation2planet    "1" *-[#595959,plain]-> "window\n1" WindowFrame          
+SimulationNplanet    "1" *-[#595959,plain]-> "engine\n1" Engine               
+SimulationNplanet    "1" *-[#595959,plain]-> "selestrialBodies\n*" SelestrialBody       
+SimulationNplanet    "1" *-[#595959,plain]-> "gui\n1" UserControl          
+SimulationNplanet    "1" *-[#595959,plain]-> "window\n1" WindowFrame          
+TwoBodyProblemSystem  -[#000082,plain]-^  EngineSystem         
+UserControl          "1" *-[#595959,plain]-> "windowFrame\n1" WindowFrame          
+UserCtrlPositionComp  -[#000082,plain]-^  EntityCompUI         
+UserCtrlPositionComp "1" *-[#595959,plain]-> "thisComp\n1" PositionComponent    
+UserCtrlVelocityComp  -[#000082,plain]-^  EntityCompUI         
+UserCtrlVelocityComp "1" *-[#595959,plain]-> "thisComp\n1" VelocityComponent    
+VelocityComponent     -[#000082,plain]-^  Component            
+VelocityComponent    "1" *-[#595959,plain]-> "velocity\n1" Vector2D             
+@enduml

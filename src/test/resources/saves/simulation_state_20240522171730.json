@@ -1,0 +1,54 @@
+{
+  "movers": [
+    {
+      "posComp": {
+        "position": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      },
+      "velComp": {
+        "velocity": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      },
+      "accComp": {
+        "acceleration": {
+          "x": 0.0,
+          "y": 0.0
+        }
+      },
+      "massComp": 10.0,
+      "size": {
+        "size": 10.0
+      },
+      "color": "0xff0000ff"
+    }
+  ],
+  "sun": {
+    "posComp": {
+      "position": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    "velComp": {
+      "velocity": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    "accComp": {
+      "acceleration": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    "massComp": 500.0,
+    "size": {
+      "size": 20.0
+    },
+    "color": "0xffff00ff"
+  }
+}

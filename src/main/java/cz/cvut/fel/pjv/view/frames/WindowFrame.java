@@ -98,13 +98,13 @@ public class WindowFrame {
      *
      *
  *          {@link HBox} {@link #appHBox} contains: <br>
-     *      <p>&#123;</p>
+     *
  *          {@link Pane} {@link #guiLayoutPane} {@link #createGUI()} <br>
  *          {@link AnchorPane} {@link #appAncorPane} contains:
-     *          <p>&#9;&#123;</p>
+
      *      {@link Canvas} {@link #gameLayoutCanvas}
-     *      <p> &#9; &#125;</p>
-     *      <p>&#125;</p>
+     *
+     *
      *
      *
      *
