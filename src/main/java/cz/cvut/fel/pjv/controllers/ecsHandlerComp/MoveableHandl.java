@@ -112,6 +112,14 @@ public class MoveableHandl extends Component {
         this.velComp.setVelocity(limit(this.velComp.getVelocity(), 15));
         this.accComp = new CompAcceleration(0, 0);
     }
+    public void update(double dt) {
+        this.velComp.setVelocity(this.velComp.getVelocity().add(this.accComp.acceleration.multiply(dt)));
+        this.posComp.position = new Point2DExt(this.posComp.position.add(this.velComp.getVelocity().multiply(dt)));
+        this.velComp.setVelocity(limit(this.velComp.getVelocity(), 15));
+        this.accComp = new CompAcceleration(0, 0);
+    }
+
+
     /**
      * Draws the entity on the given {@link GraphicsContext}.
      * <p>
