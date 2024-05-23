@@ -25,9 +25,7 @@ public class Main extends Application{
 //    private final UserControl ui = UserControl.get();
 
     @Override
-    //Nodes(obj, shapes)
     public void start(Stage primaryStage) throws Exception{
-        // Создание окна
         windowFrame.run(primaryStage);
 
 

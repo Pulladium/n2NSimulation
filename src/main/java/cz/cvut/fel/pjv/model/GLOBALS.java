@@ -16,7 +16,11 @@ import java.util.logging.Logger;
  * Global constants and methods
  */
 public class GLOBALS {
-    public static final double G = 0.4;
+    public static double G = 0.4;
+
+    public static void setG(double g) {
+        G = g;
+    }
 
     public static final Logger globalLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME); Level level = Level.INFO;
 

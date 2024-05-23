@@ -42,19 +42,19 @@ public class KeyBoardHandl {
             else {
                 switch (keyEvent.getCode()) {
                     case W:
-                        windowFrame.offsetY -= 10;
+                        windowFrame.offsetY -= 5;
                         simpleAtraction.redraw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
                         break;
                     case S:
-                        windowFrame.offsetY += 10;
+                        windowFrame.offsetY += 5;
                         simpleAtraction.redraw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
                         break;
                     case A:
-                        windowFrame.offsetX -= 10;
+                        windowFrame.offsetX -= 5;
                         simpleAtraction.redraw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
                         break;
                     case D:
-                        windowFrame.offsetX += 10;
+                        windowFrame.offsetX += 5;
                         simpleAtraction.redraw(windowFrame.getGameLayoutCanvas().getGraphicsContext2D());
                         break;
 

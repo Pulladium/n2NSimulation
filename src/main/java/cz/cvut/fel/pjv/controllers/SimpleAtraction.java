@@ -128,7 +128,8 @@ public class SimpleAtraction {
 
 
         gc.clearRect(0, 0, WIDTH, HEIGHT);
-        gc.setFill(Color.BLACK);
+//        #011412
+        gc.setFill(Color.web("#011412"));
         gc.fillRect(0, 0, WIDTH, HEIGHT);
 
 
@@ -163,7 +164,7 @@ public class SimpleAtraction {
         double WIDTH = gc.getCanvas().getWidth();
         double HEIGHT = gc.getCanvas().getHeight();
         gc.clearRect(0, 0, WIDTH, HEIGHT);
-        gc.setFill(Color.BLACK);
+        gc.setFill(Color.web("#011412"));
         gc.fillRect(0, 0, WIDTH, HEIGHT);
 
 

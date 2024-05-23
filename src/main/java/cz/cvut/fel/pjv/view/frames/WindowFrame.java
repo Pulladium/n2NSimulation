@@ -81,7 +81,7 @@ public class WindowFrame {
     private Parent createGUI(){
         guiLayoutPane = new Pane();
 
-        guiLayoutPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, null)));
+        guiLayoutPane.setBackground(new Background(new BackgroundFill(Color.web("#51948D"), CornerRadii.EMPTY, null)));
         guiLayoutPane.setViewOrder(0.0);
 
 
@@ -89,6 +89,15 @@ public class WindowFrame {
 //        userControl.setWindow(this);
         appHBox.getChildren().add(guiLayoutPane);
         guiLayoutPane.setVisible(false);
+//        guiLayoutPane on width change
+        guiLayoutPane.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldWidth, Number newWidth) {
+                uiNewSim.sliderPane.setPrefWidth(newWidth.doubleValue());
+                uiNewSim.sliderPane.setMaxWidth(newWidth.doubleValue());
+                uiNewSim.sliderPane.setMinWidth(newWidth.doubleValue());
+            }
+        });
         return null;
     }
 
@@ -119,7 +128,8 @@ public class WindowFrame {
 
 
         GraphicsContext gc = gameLayoutCanvas.getGraphicsContext2D();
-
+//#011412
+        gc.setFill(Color.web("#011412"));
         gc.fillRect(0, 0, gameLayoutCanvas.getWidth(), gameLayoutCanvas.getHeight()); // Заливаем весь Canvas черным цветом
 
 
@@ -310,6 +320,7 @@ public class WindowFrame {
 
     }
 
+
     /**
      * Resumes the application.
      * @implNote Changes volatile running variable to true, which controls model update.
@@ -317,6 +328,7 @@ public class WindowFrame {
      * @implNote Starts javaFX animation loop .
      */
     public void resume() {
+
         running = true;
         guiLayoutPane.setVisible(false);
         appAncorPane.setMinWidth(appHBox.getWidth());

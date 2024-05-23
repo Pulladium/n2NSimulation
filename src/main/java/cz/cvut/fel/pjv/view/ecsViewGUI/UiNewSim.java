@@ -28,8 +28,8 @@ import static cz.cvut.fel.pjv.model.GLOBALS.log;
  */
 public class UiNewSim {
 
-    private Pane parentPane;
-    private VBox sliderPane;
+    public Pane parentPane;
+    public VBox sliderPane;
 
     private WindowFrame windowFrame;
 
@@ -47,7 +47,7 @@ public class UiNewSim {
 
         sliderPane.setViewOrder(0.1);
 
-        sliderPane.setStyle("-fx-background-color: #ffff; -fx-border-color: #16be78; -fx-border-width: 1px;");
+//        sliderPane.setStyle("-fx-background-color: #ffff; -fx-border-color: #16be78; -fx-border-width: 1px;");
 
     }
     /**
@@ -75,8 +75,14 @@ public class UiNewSim {
 
 
 
-        sliderPane.setPrefHeight(parentPane.getPrefHeight());
-        sliderPane.setPrefWidth(parentPane.getPrefWidth());
+        sliderPane.setMinWidth(parentPane.getWidth());
+        sliderPane.setAlignment(javafx.geometry.Pos.CENTER);
+        sliderPane.setSpacing(5);
+
+
+//        sliderPane.setPrefHeight(parentPane.getPrefHeight());
+//        sliderPane.setPrefWidth(parentPane.getPrefWidth());
+
 
         showSimStartProperties();
 
@@ -89,44 +95,39 @@ public class UiNewSim {
      * @return the {@link VBox} container with sun properties input fields.
      */
     public VBox showSunProp() {
-        // Создание контейнера для свойств солнца
         VBox sunPropsContainer = new VBox(10); // Пространство между элементами
         sunPropsContainer.setStyle("-fx-padding: 10px; -fx-border-color: #ddd; -fx-border-width: 1px;");
 
-        // Позиция
         Label positionLabel = new Label("Position: ");
         TextField posXTextField = new TextField("0"); // Координата X
         TextField posYTextField = new TextField("0"); // Координата Y
         posXTextField.setPromptText("Enter X coordinate");
         posYTextField.setPromptText("Enter Y coordinate");
 
-        // Скорость
         Label velocityLabel = new Label("Velocity: ");
         TextField veloXTextField = new TextField("0"); // Скорость X
         TextField veloYTextField = new TextField("0"); // Скорость Y
         veloXTextField.setPromptText("Enter X velocity");
         veloYTextField.setPromptText("Enter Y velocity");
 
-        // Масса
+
         Label massLabel = new Label("Mass: ");
         TextField massTextField = new TextField("100");
         massTextField.setPromptText("Enter mass value");
 
-        // Размер
         Label sizeLabel = new Label("Size: ");
         TextField sizeTextField = new TextField("100");
         sizeTextField.setPromptText("Enter size value");
 
-        // Добавление всех компонентов в контейнер
+
         sunPropsContainer.getChildren().addAll(positionLabel, posXTextField, posYTextField,
                 velocityLabel, veloXTextField, veloYTextField,
                 massLabel, massTextField,
                 sizeLabel, sizeTextField);
 
-        // Добавление контейнера в основной пейс
-        sliderPane.getChildren().add(sunPropsContainer);
 
-//        System.out.println("Sun properties input fields have been displayed.");
+        sliderPane.getChildren().add(sliderPane.getChildren().size() - 1, sunPropsContainer);
+
         log("Sun properties input fields have been displayed.", Level.INFO);
         return sunPropsContainer;
     }
@@ -184,17 +185,63 @@ public class UiNewSim {
      */
 
     public void showSimStartProperties(){
-        // Create text field for entering the number of movers
-        TextField moverCountTextField = new TextField("1");
+        Label label = new Label("Gravity const: ");
+        TextField gTextField = new TextField("0.4");
+        //on change
+        gTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                double g = Double.parseDouble(newValue);
+                if(g < 0){
+                    log("Invalid gravity const: " + newValue, Level.WARNING);
+                }
+                else {
+                    log("Gravity const changed to " + g, Level.INFO);
+                    cz.cvut.fel.pjv.model.GLOBALS.setG(g);
+                }
+            }catch (NumberFormatException e){
+//                gTextField.setText(oldValue);
+                log("Invalid gravity const: " + newValue, Level.WARNING);
+            }
+        });
+
+
+        TextField moverCountTextField = new TextField("");
+        moverCountTextField.setPrefWidth(sliderPane.getWidth());
+//        #2FBA3C
+        moverCountTextField.setStyle("-fx-background-color: #2FBA3C;" +
+                "-fx-text-fill: black;" +
+                "-fx-font-size: 16px;" +
+                "-fx-border-color: #16be78;" +
+                "-fx-border-width: 1px;" +
+                "-fx-border-radius: 5px;" +
+                "-fx-padding: 5px;");
         moverCountTextField.setPromptText("Mover Count");
 
         // Create checkbox for determining if the sun is present
         CheckBox hasSunCheckBox = new CheckBox("Has Sun");
         hasSunCheckBox.setSelected(false); // Assume the sun is present by default
 
+        hasSunCheckBox.setStyle("-fx-background-color: #2FBA3C;" +
+                "-fx-text-fill: black;" +
+                "-fx-font-size: 16px;" +
+                "-fx-border-color: #16be78;" +
+                "-fx-border-width: 1px;" +
+                "-fx-border-radius: 5px;" +
+                "-fx-padding: 5px;");
+
+
         Button startSimButton = new Button("Start Simulation");
+        startSimButton.setStyle("-fx-background-color: #2FBA3C;" +
+                "-fx-text-fill: black;" +
+                "-fx-font-size: 16px;" +
+                "-fx-border-color: #16be78;" +
+                "-fx-border-width: 1px;" +
+                "-fx-border-radius: 5px;" +
+                "-fx-padding: 5px;");
+
         // Add text field and checkbox to the panel
-        sliderPane.getChildren().addAll(moverCountTextField, hasSunCheckBox, startSimButton);
+        sliderPane.getChildren().addAll(label, gTextField, moverCountTextField, hasSunCheckBox, startSimButton);
+
 
         // Set up a listener for the checkbox
         hasSunCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
