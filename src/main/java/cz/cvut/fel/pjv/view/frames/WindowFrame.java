@@ -81,7 +81,7 @@ public class WindowFrame {
     private Parent createGUI(){
         guiLayoutPane = new Pane();
 
-        guiLayoutPane.setBackground(new Background(new BackgroundFill(Color.web("#51948D"), CornerRadii.EMPTY, null)));
+        guiLayoutPane.setBackground(new Background(new BackgroundFill(Color.web("#1E1E1E"), CornerRadii.EMPTY, null)));
         guiLayoutPane.setViewOrder(0.0);
 
 

@@ -6,6 +6,8 @@ import at.fhooe.mtd.ecs.EntityFamily;
 import cz.cvut.fel.pjv.Main;
 import cz.cvut.fel.pjv.model.ecsComponents.*;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,22 @@ public class GLOBALS {
 
     public static void log(String message, Level level) {
         globalLogger.setLevel(level);
-        globalLogger.log(level, message);
+        if(level == Level.WARNING){
+            showAlert(Alert.AlertType.WARNING, "Warning", "Warning", message);
+        }else {
+            globalLogger.log(level, message);
+        }
+    }
+    private static void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                System.out.println("Pressed OK.");
+            }
+        });
     }
 
 
