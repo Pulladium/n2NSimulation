@@ -144,7 +144,7 @@ public class WindowFrame {
 
         appAncorPane = new AnchorPane();
 
-        appAncorPane.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, null)));
+        appAncorPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, null)));
         appAncorPane.getChildren().add(gameLayoutCanvas);
 //
 
