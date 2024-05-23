@@ -1,8 +1,6 @@
 package cz.cvut.fel.pjv;
 
 import at.fhooe.mtd.ecs.Engine;
-
-//import cz.cvut.fel.pjv.controllers.Simulation2planet;
 import cz.cvut.fel.pjv.controllers.SimpleAtraction;
 //import cz.cvut.fel.pjv.view.ecsViewGUI.UserControl;
 import cz.cvut.fel.pjv.view.frames.WindowFrame;
@@ -17,16 +15,12 @@ import static cz.cvut.fel.pjv.model.GLOBALS.log;
 
 
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main extends Application{
 
     private Engine engine = new Engine();
 
-//    static
     private final WindowFrame windowFrame = WindowFrame.get();
 
-//    static
 //    private final UserControl ui = UserControl.get();
 
     @Override

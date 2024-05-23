@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
@@ -96,14 +97,16 @@ public class SimulationTest {
     @Test
     public void testThreeMoversSimulation() throws InterruptedException {
         simulationState.createNwithoutAtractor(3);
-//        Mover mover = simulationState.getMovers().get(0);
+
+        ArrayList<Point2D> initialPositions = new ArrayList<>();
+        ArrayList<Point2D> initVelocities = new ArrayList<>();
         for (Mover mover : simulationState.getMovers()) {
             Point2D initialPosition = mover.getPosComp().getPosition();
-            Point2D velocity = mover.getVelComp().getVelocity();
+            Point2D initVelocity = mover.getVelComp().getVelocity();
 
-            System.out.println("Mover Initial Position: " + initialPosition);
-            System.out.println("Mover Velocity: " + velocity);
 
+            initialPositions.add(initialPosition);
+            initVelocities.add(initVelocity);
 
             engine.addEntity(mover.getCurrentEntity());
         }
@@ -147,19 +150,24 @@ public class SimulationTest {
         latch.await();
 
         // Assert the expected conditions for each mover
+        int cnt = 0;
         for (Mover mover : simulationState.getMovers()) {
-            Point2D initialPosition = mover.getPosComp().getPosition();
-            Point2D velocity = mover.getVelComp().getVelocity();
-            double expectedX = initialPosition.getX() + velocity.getX() * 5; // Adjusted for 5 seconds
-            double expectedY = initialPosition.getY() + velocity.getY() * 5; // Adjusted for 5 seconds
+            Point2D initialPosition = initialPositions.get(cnt);
+            Point2D initVelocity = initVelocities.get(cnt);
+
+            double expectedX = initialPosition.getX() + initVelocity.getX() * 5; // Adjusted for 5 seconds
+            double expectedY = initialPosition.getY() + initVelocity.getY() * 5; // Adjusted for 5 seconds
 
             System.out.println("Mover Initial Position: " + initialPosition);
-            System.out.println("Mover Velocity: " + velocity);
+            System.out.println("Mover Velocity: " + initVelocity);
+
+            System.out.println("Mover Expected Position: " + new Point2D(expectedX, expectedY));
             System.out.println("Mover Updated Position: " + mover.getPosComp().getPosition());
 
+            cnt++;
 
-            assertEquals(expectedX, mover.getPosComp().getPosition().getX(), 400.0); // Added tolerance of 400
-            assertEquals(expectedY, mover.getPosComp().getPosition().getY(), 400.0);
+            assertEquals(expectedX, mover.getPosComp().getPosition().getX(), 100.0); // Added tolerance of 400
+            assertEquals(expectedY, mover.getPosComp().getPosition().getY(), 100.0);
         }
     }
 
