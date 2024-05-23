@@ -115,8 +115,6 @@ public class WindowFrame {
      *
      *
      *
-     *
-     *
      * @return The parent node of the window.
      */
     private Parent createContent() {
@@ -149,9 +147,6 @@ public class WindowFrame {
         appAncorPane.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, null)));
         appAncorPane.getChildren().add(gameLayoutCanvas);
 //
-
-
-
 
 
 
