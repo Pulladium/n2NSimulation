@@ -147,24 +147,18 @@ public class WindowFrame {
 
 
         appHBox = new HBox();
-//        appHBox.autosize();
 
         appHBox.getChildren().add(appAncorPane);
 
         createGUI();
         uiNewSim.setWindow(this);
 
-//        appAncorPane.setMinWidth(appHBox.getWidth()- 200);
-//        appAncorPane.setMaxWidth(appHBox.getWidth() - 200);
-//        gameLayoutCanvas.setWidth(appHBox.getWidth() - 200);
-//        System.out.println("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth());
-
         log("GuiLayoutPane height: " + guiLayoutPane.getHeight() + " width: " + guiLayoutPane.getWidth(), Level.INFO);
 
 
 
 
-        //сначла нео
+
 
         // Add width and height listeners to the Hbox
         appHBox.widthProperty().addListener(new ChangeListener<Number>() {
