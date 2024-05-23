@@ -58,7 +58,7 @@ public class SimpleAtraction {
 
         SimulationSaverGSON simulationSaverGSON = new SimulationSaverGSON();
         simulationSaverGSON.setCurrentState(simulationState);
-        simulationSaverGSON.saveSimStateGSON("src/main/resources/saves/");
+        simulationSaverGSON.saveSimStateGSON(dataDirParh);
 
     }
     /**
@@ -68,7 +68,7 @@ public class SimpleAtraction {
 
 
         SimulationSaverGSON simulationSaverGSON = new SimulationSaverGSON();
-        simulationState = simulationSaverGSON.loadSimStateGSON("src/main/resources/saves/");
+        simulationState = simulationSaverGSON.loadSimStateGSON(dataDirParh);
 
 
         if( simulationState == null){

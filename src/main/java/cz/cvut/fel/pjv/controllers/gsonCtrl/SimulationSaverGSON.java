@@ -49,6 +49,7 @@ public class SimulationSaverGSON {
      * <p>
      * Uses {@link GsonBuilder} to create a GSON instance with pretty printing and custom adapters.
      * Generates a unique filename based on the current timestamp.
+     * Creates the directory if it does not exist.
      *
      * @param dirPath the directory path where the JSON file will be saved.
      */
@@ -66,6 +67,14 @@ public class SimulationSaverGSON {
         //not actualy a dirPath now
         String filePath = dirPath + "/simulation_state_" + timestamp + ".json";
 
+        Path dir = Paths.get(dirPath);
+        if(!Files.exists(dir)) {
+            try {
+                Files.createDirectories(dir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         try(FileWriter writer = new FileWriter(filePath)){
             gson.toJson(currentState, writer);
         } catch (IOException e) {

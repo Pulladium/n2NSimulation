@@ -5,11 +5,13 @@ import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import static cz.cvut.fel.pjv.model.GLOBALS.dataDirParh;
 import static org.junit.jupiter.api.Assertions.*;
 
 //integrcni test 1
@@ -30,7 +32,7 @@ public class SimulationSaverGSONTest {
 
     @Test
     public void testSaveSimStateGSON() throws Exception {
-        String dirPath = "src/test/resources/saves/";
+        String dirPath = dataDirParh;
         Files.createDirectories(Paths.get(dirPath));
         simulationSaverGSON.saveSimStateGSON(dirPath);
 
@@ -41,7 +43,7 @@ public class SimulationSaverGSONTest {
 
     @Test
     public void testLoadSimStateGSON() {
-        String dirPath = "src/test/resources/saves/";
+        String dirPath = dataDirParh;
         simulationSaverGSON.saveSimStateGSON(dirPath);
 
         SimulationState loadedState = simulationSaverGSON.loadSimStateGSON(dirPath);

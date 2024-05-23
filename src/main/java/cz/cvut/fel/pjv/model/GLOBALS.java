@@ -39,4 +39,6 @@ public class GLOBALS {
     public static final int SIMULATION_UPDATE_RATE = 60;
 
     public static WindowFrame windowFrame = WindowFrame.get();
+
+    public final static String dataDirParh = "data/";
 }
