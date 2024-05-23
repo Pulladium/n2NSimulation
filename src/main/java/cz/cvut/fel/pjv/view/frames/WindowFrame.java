@@ -81,7 +81,7 @@ public class WindowFrame {
     private Parent createGUI(){
         guiLayoutPane = new Pane();
 
-        guiLayoutPane.setBackground(new Background(new BackgroundFill(Color.web("#51948D"), CornerRadii.EMPTY, null)));
+        guiLayoutPane.setBackground(new Background(new BackgroundFill(Color.web("#1E1E1E"), CornerRadii.EMPTY, null)));
         guiLayoutPane.setViewOrder(0.0);
 
 
@@ -115,8 +115,6 @@ public class WindowFrame {
      *
      *
      *
-     *
-     *
      * @return The parent node of the window.
      */
     private Parent createContent() {
@@ -146,12 +144,9 @@ public class WindowFrame {
 
         appAncorPane = new AnchorPane();
 
-        appAncorPane.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, null)));
+        appAncorPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, null)));
         appAncorPane.getChildren().add(gameLayoutCanvas);
 //
-
-
-
 
 
 

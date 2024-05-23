@@ -43,12 +43,8 @@ public class UiNewSim {
     private UiNewSim() {
         sliderPane = new VBox();
 
-//        sliderPane.setAlignment(javafx.geometry.Pos.CENTER);
-
         sliderPane.setViewOrder(0.1);
-
-//        sliderPane.setStyle("-fx-background-color: #ffff; -fx-border-color: #16be78; -fx-border-width: 1px;");
-
+        sliderPane.setStyle("-fx-background-color: #1E1E1E; -fx-padding: 10px; -fx-spacing: 10px;");
     }
     /**
      * Singleton method to get the instance of {@link UiNewSim}.
@@ -96,15 +92,17 @@ public class UiNewSim {
      */
     public VBox showSunProp() {
         VBox sunPropsContainer = new VBox(10); // Пространство между элементами
-        sunPropsContainer.setStyle("-fx-padding: 10px; -fx-border-color: #ddd; -fx-border-width: 1px;");
+        sunPropsContainer.setStyle("-fx-padding: 10px; -fx-border-color: #ddd; -fx-border-width: 1px; -fx-background-color: #2E2E2E;");
 
         Label positionLabel = new Label("Position: ");
+        positionLabel.setStyle("-fx-text-fill: #FFFFFF;");
         TextField posXTextField = new TextField("0"); // Координата X
         TextField posYTextField = new TextField("0"); // Координата Y
         posXTextField.setPromptText("Enter X coordinate");
         posYTextField.setPromptText("Enter Y coordinate");
 
         Label velocityLabel = new Label("Velocity: ");
+        velocityLabel.setStyle("-fx-text-fill: #FFFFFF;");
         TextField veloXTextField = new TextField("0"); // Скорость X
         TextField veloYTextField = new TextField("0"); // Скорость Y
         veloXTextField.setPromptText("Enter X velocity");
@@ -112,10 +110,12 @@ public class UiNewSim {
 
 
         Label massLabel = new Label("Mass: ");
+        massLabel.setStyle("-fx-text-fill: #FFFFFF;");
         TextField massTextField = new TextField("100");
         massTextField.setPromptText("Enter mass value");
 
         Label sizeLabel = new Label("Size: ");
+        sizeLabel.setStyle("-fx-text-fill: #FFFFFF;");
         TextField sizeTextField = new TextField("100");
         sizeTextField.setPromptText("Enter size value");
 
@@ -186,7 +186,15 @@ public class UiNewSim {
 
     public void showSimStartProperties(){
         Label label = new Label("Gravity const: ");
+        label.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
         TextField gTextField = new TextField("0.4");
+        gTextField.setPromptText("Gravity const");
+        gTextField.setStyle("-fx-background-color: #D3DFDF; " +
+                " -fx-font-size: 16px;" +
+                " -fx-border-color: #D3DFDF; -fx-border-width: 1px;" +
+                " -fx-border-radius: 5px; -fx-padding: 5px;" +
+                "-fx-prompt-text-fill: derive(-fx-control-inner-background, -80%);");
+
         //on change
         gTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
@@ -206,38 +214,32 @@ public class UiNewSim {
 
 
         TextField moverCountTextField = new TextField("");
+        moverCountTextField.setPromptText("Number of Movers");
+        //Prompt text
         moverCountTextField.setPrefWidth(sliderPane.getWidth());
 //        #2FBA3C
-        moverCountTextField.setStyle("-fx-background-color: #2FBA3C;" +
-                "-fx-text-fill: black;" +
-                "-fx-font-size: 16px;" +
-                "-fx-border-color: #16be78;" +
-                "-fx-border-width: 1px;" +
-                "-fx-border-radius: 5px;" +
-                "-fx-padding: 5px;");
-        moverCountTextField.setPromptText("Mover Count");
+        moverCountTextField.setStyle("-fx-background-color: #D3DFDF; " +
+                " -fx-font-size: 16px;" +
+                " -fx-border-color: #D3DFDF; -fx-border-width: 1px;" +
+                " -fx-border-radius: 5px; -fx-padding: 5px;" +
+                "-fx-prompt-text-fill: derive(-fx-control-inner-background, -80%);");
+
 
         // Create checkbox for determining if the sun is present
         CheckBox hasSunCheckBox = new CheckBox("Has Sun");
+        hasSunCheckBox.setStyle("-fx-text-fill: #FFFFFF; -fx-font-size: 16px;");
         hasSunCheckBox.setSelected(false); // Assume the sun is present by default
 
-        hasSunCheckBox.setStyle("-fx-background-color: #2FBA3C;" +
-                "-fx-text-fill: black;" +
-                "-fx-font-size: 16px;" +
-                "-fx-border-color: #16be78;" +
-                "-fx-border-width: 1px;" +
-                "-fx-border-radius: 5px;" +
-                "-fx-padding: 5px;");
+        hasSunCheckBox.setStyle("-fx-text-fill: #FFFFFF;");
+
+        hasSunCheckBox.setStyle("-fx-text-fill: #FFFFFF;");
 
 
         Button startSimButton = new Button("Start Simulation");
-        startSimButton.setStyle("-fx-background-color: #2FBA3C;" +
-                "-fx-text-fill: black;" +
-                "-fx-font-size: 16px;" +
-                "-fx-border-color: #16be78;" +
-                "-fx-border-width: 1px;" +
-                "-fx-border-radius: 5px;" +
-                "-fx-padding: 5px;");
+        startSimButton.setStyle("-fx-background-color: #D3DFDF;" +
+                " -fx-text-fill: black; -fx-font-size: 16px;" +
+                " -fx-border-color:#D3DFDF ; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-padding: 5px;");
+
 
         // Add text field and checkbox to the panel
         sliderPane.getChildren().addAll(label, gTextField, moverCountTextField, hasSunCheckBox, startSimButton);

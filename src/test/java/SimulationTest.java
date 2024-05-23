@@ -171,4 +171,78 @@ public class SimulationTest {
         }
     }
 
+    @Test
+    public void testFiveMoversSimulation() throws InterruptedException {
+        simulationState.createNwithoutAtractor(5);
+
+        ArrayList<Point2D> initialPositions = new ArrayList<>();
+        ArrayList<Point2D> initVelocities = new ArrayList<>();
+        for (Mover mover : simulationState.getMovers()) {
+            Point2D initialPosition = mover.getPosComp().getPosition();
+            Point2D initVelocity = mover.getVelComp().getVelocity();
+
+            initialPositions.add(initialPosition);
+            initVelocities.add(initVelocity);
+
+            engine.addEntity(mover.getCurrentEntity());
+        }
+        N2mAtraction n2mAtraction = new N2mAtraction(simulationState.getMovers(), simulationState.getSun());
+        engine.addSystem(n2mAtraction);
+
+        System.out.println("Engine Entities: " + engine.getNumOfEntities());
+
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        final long[] lastUpdate = {System.nanoTime()};
+
+        executor.scheduleAtFixedRate(() -> {
+            long now = System.nanoTime();
+            double dt = (now - lastUpdate[0]) / 1_000_000_000.0; // Convert to seconds
+            lastUpdate[0] = now;
+
+            List<Entity> entities = engine.getEntities(EntityFamily.create(MoveableHandl.class));
+            for (Entity entity : entities) {
+                MoveableHandl moveableHandl = entity.getComponent(MoveableHandl.class);
+                moveableHandl.update(dt); // Pass dt to update method
+            }
+        }, 0, FRAME_DURATION, TimeUnit.MILLISECONDS);
+
+        ScheduledExecutorService engineExecutor = Executors.newSingleThreadScheduledExecutor();
+        engineExecutor.scheduleAtFixedRate(() -> {
+            engine.update(1.0/60);
+        }, 0, FRAME_DURATION, TimeUnit.MILLISECONDS);
+
+        executor.schedule(() -> {
+            latch.countDown();
+            executor.shutdown();
+        }, 5, TimeUnit.SECONDS); // Reduced to 5 seconds for testing purposes
+
+        engineExecutor.schedule(() -> {
+            latch.countDown();
+            engineExecutor.shutdown();
+        }, 5, TimeUnit.SECONDS); // Reduced to 5 seconds for testing purposes
+
+        latch.await();
+
+        // Assert the expected conditions for each mover
+        int cnt = 0;
+        for (Mover mover : simulationState.getMovers()) {
+            Point2D initialPosition = initialPositions.get(cnt);
+            Point2D initVelocity = initVelocities.get(cnt);
+
+            double expectedX = initialPosition.getX() + initVelocity.getX() * 5; // Adjusted for 5 seconds
+            double expectedY = initialPosition.getY() + initVelocity.getY() * 5; // Adjusted for 5 seconds
+
+            System.out.println("Mover Initial Position: " + initialPosition);
+            System.out.println("Mover Velocity: " + initVelocity);
+
+            System.out.println("Mover Expected Position: " + new Point2D(expectedX, expectedY));
+            System.out.println("Mover Updated Position: " + mover.getPosComp().getPosition());
+
+            cnt++;
+
+            assertEquals(expectedX, mover.getPosComp().getPosition().getX(), 100.0); // Added tolerance of 100
+            assertEquals(expectedY, mover.getPosComp().getPosition().getY(), 100.0);
+        }
+    }
+
 }
