@@ -16,6 +16,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 
@@ -47,6 +50,7 @@ public class WindowFrame {
     Pane guiLayoutPane;
     private double canvasScale = 0.5;
 
+    private TextFlow guideTextFlow;
 
     private Engine engine;
 
@@ -57,6 +61,7 @@ public class WindowFrame {
     private volatile boolean running = true;
 
     private static AnimationTimer gameLoopAnim;
+
 
 
     private SimpleAtraction simpleAtraction;
@@ -85,6 +90,31 @@ public class WindowFrame {
         guiLayoutPane.setViewOrder(0.0);
 
 
+//        // Создаем и настраиваем текстовый элемент
+//        guideText = new Text(
+//                        "1. Stop/Pause simulation: P\n" +
+//                        "2. Save simulation state: Ctrl+P\n" +
+//                        "3. Load saved simulation: Ctrl+S\n" +
+//                        "4. Change camera view (zoom in/out): Ctrl+ / Ctrl-\n" +
+//                        "5. Move simulation: W A S D"
+//        );
+//        guideText.setLayoutY(height/50.0);
+//        guideText.setLayoutX(width/50.0);
+//        guideText.setFont(new Font(20));
+//        guideText.setFill(Color.WHITE);
+//        guideText.setVisible(true); // Изначально скрыт
+
+        // Добавляем текст на панель
+
+        TextFlow guideText = createGuideText();
+
+        appAncorPane.getChildren().add(guideText);
+        guideText.setViewOrder(0.0);
+
+        AnchorPane.setTopAnchor(guideText, 10.0);
+        AnchorPane.setLeftAnchor(guideText, 10.0);
+
+
 
 //        userControl.setWindow(this);
         appHBox.getChildren().add(guiLayoutPane);
@@ -99,6 +129,64 @@ public class WindowFrame {
             }
         });
         return null;
+    }
+
+
+    private TextFlow createGuideText(){
+        guideTextFlow = new TextFlow();
+        guideTextFlow.setVisible(true);
+
+        Text text1 = new Text("1. Stop/Pause simulation: ");
+        text1.setFont(new Font(14));
+        text1.setFill(Color.web("#CFCFCF"));
+        Text key1 = new Text("P\n");
+        key1.setFont(new Font(16));
+        key1.setFill(Color.web("#EAC95F"));
+
+        Text text2 = new Text("2. Save simulation state: ");
+        text2.setFont(new Font(14));
+        text2.setFill(Color.web("#CFCFCF"));
+        Text key2 = new Text("Ctrl+P\n");
+        key2.setFont(new Font(16));
+        key2.setFill(Color.web("#EAC95F"));
+
+        Text text3 = new Text("3. Load saved simulation: ");
+        text3.setFont(new Font(14));
+        text3.setFill(Color.web("#CFCFCF"));
+        Text key3 = new Text("Ctrl+S\n");
+        key3.setFont(new Font(16));
+        key3.setFill(Color.web("#EAC95F"));
+
+        Text text4 = new Text("4. Change camera view (zoom in/out): ");
+        text4.setFont(new Font(14));
+        text4.setFill(Color.web("#CFCFCF"));
+        Text key4 = new Text("Ctrl+ / Ctrl-\n");
+        key4.setFont(new Font(16));
+        key4.setFill(Color.web("#EAC95F"));
+
+        Text text5 = new Text("5. Move simulation: ");
+        text5.setFont(new Font(14));
+        text5.setFill(Color.web("#CFCFCF"));
+        Text key5 = new Text("W A S D");
+        key5.setFont(new Font(16));
+        key5.setFill(Color.web("#EAC95F"));
+
+        //Ctrl +
+//        Text text6 = new Text("6. Toggle guide: ");
+//        text6.setFont(new Font(14));
+//        text6.setFill(Color.WHITE);
+//        Text key6 = new Text("Ctrl+I");
+//        key6.setFont(new Font(18));
+//        key6.setFill(Color.YELLOW);
+        Text text6 = new Text("6. Toggle guide: ");
+        text6.setFont(new Font(14));
+        text6.setFill(Color.web("#CFCFCF"));
+        Text key6 = new Text("Ctrl+I");
+        key6.setFont(new Font(16));
+        key6.setFill(Color.web("#EAC95F"));
+
+        guideTextFlow.getChildren().addAll(text1, key1, text2, key2, text3, key3, text4, key4, text5, key5);
+        return guideTextFlow;
     }
 
     /**
