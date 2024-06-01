@@ -29,6 +29,10 @@ public class KeyBoardHandl {
                 if(!windowFrame.isRunning())
                     simpleAtraction.loadSimState();
             }
+            else if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.I) {
+                boolean vis  = windowFrame.changeGuideVisibility();
+                log("Guide visibility: " + vis, Level.INFO);
+            }
             else if ( keyEvent.isControlDown()) {
                 if ( keyEvent.getCode() == KeyCode.PLUS ||  keyEvent.getCode() == KeyCode.EQUALS) {
                     windowFrame.setCanvasScale(windowFrame.getCanvasScale()* 1.1);

@@ -90,22 +90,6 @@ public class WindowFrame {
         guiLayoutPane.setViewOrder(0.0);
 
 
-//        // Создаем и настраиваем текстовый элемент
-//        guideText = new Text(
-//                        "1. Stop/Pause simulation: P\n" +
-//                        "2. Save simulation state: Ctrl+P\n" +
-//                        "3. Load saved simulation: Ctrl+S\n" +
-//                        "4. Change camera view (zoom in/out): Ctrl+ / Ctrl-\n" +
-//                        "5. Move simulation: W A S D"
-//        );
-//        guideText.setLayoutY(height/50.0);
-//        guideText.setLayoutX(width/50.0);
-//        guideText.setFont(new Font(20));
-//        guideText.setFill(Color.WHITE);
-//        guideText.setVisible(true); // Изначально скрыт
-
-        // Добавляем текст на панель
-
         TextFlow guideText = createGuideText();
 
         appAncorPane.getChildren().add(guideText);
@@ -167,17 +151,11 @@ public class WindowFrame {
         Text text5 = new Text("5. Move simulation: ");
         text5.setFont(new Font(14));
         text5.setFill(Color.web("#CFCFCF"));
-        Text key5 = new Text("W A S D");
+        Text key5 = new Text("W A S D \n");
         key5.setFont(new Font(16));
         key5.setFill(Color.web("#EAC95F"));
 
-        //Ctrl +
-//        Text text6 = new Text("6. Toggle guide: ");
-//        text6.setFont(new Font(14));
-//        text6.setFill(Color.WHITE);
-//        Text key6 = new Text("Ctrl+I");
-//        key6.setFont(new Font(18));
-//        key6.setFill(Color.YELLOW);
+
         Text text6 = new Text("6. Toggle guide: ");
         text6.setFont(new Font(14));
         text6.setFill(Color.web("#CFCFCF"));
@@ -185,8 +163,20 @@ public class WindowFrame {
         key6.setFont(new Font(16));
         key6.setFill(Color.web("#EAC95F"));
 
-        guideTextFlow.getChildren().addAll(text1, key1, text2, key2, text3, key3, text4, key4, text5, key5);
+        guideTextFlow.getChildren().addAll(text1, key1, text2, key2, text3, key3, text4, key4, text5, key5, text6, key6);
         return guideTextFlow;
+    }
+
+
+    public boolean changeGuideVisibility(){
+        if(guideTextFlow.isVisible()){
+            guideTextFlow.setVisible(false);
+            return false;
+        }
+        else{
+            guideTextFlow.setVisible(true);
+            return true;
+        }
     }
 
     /**
